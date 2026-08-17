@@ -712,6 +712,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   .pop-links a{color:var(--accent);text-decoration:none}
   .badge{display:inline-block;background:#2b303b;color:var(--muted);border-radius:6px;padding:1px 6px;font-size:11px;margin-left:6px}
   .badge.neuf{background:var(--accent);color:#0f1115;font-weight:700}
+  .badge.prix{background:#0CA678;color:#0f1115;font-weight:700}
+  .badge.prix.reduit{background:#3d4452;color:#dfe3ea}
+  #chipsPrix{padding-top:2px}
 
   .tilewarn{background:rgba(23,26,33,.92);border:1px solid var(--line);color:var(--muted);
     border-radius:9px;padding:7px 10px;font-size:12px;max-width:62vw}
@@ -736,6 +739,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
       <button class="btn" id="fit" title="Tout voir">⤢</button>
     </div>
     <div class="chips" id="chips"></div>
+    <div class="chips" id="chipsPrix"></div>
   </header>
 
   <div id="map"></div>
@@ -765,33 +769,33 @@ const OFFRES = [
 /* ---------------- CULTURE ---------------- */
 {n:1,  cat:"monument", nom:"Tour Eiffel", adr:"5 avenue Anatole-France, 75007 Paris",
  offre:"1 billet pour l'accès au 2e étage à 3,80 € par les escaliers (au lieu de 7,30 €)", periode:"1er juin – 30 sept. 2026", lat:48.8584, lon:2.2945},
-{n:2,  cat:"musee", nom:"Grand Palais", adr:"17 avenue du Général Eisenhower, 75008 Paris",
+{n:2, gratuit:true,  cat:"musee", nom:"Grand Palais", adr:"17 avenue du Général Eisenhower, 75008 Paris",
  offre:"1 entrée gratuite + 1 entrée accompagnateur·rice offerte (au lieu de 15 €) — expo Hilma af Klint", periode:"4 juillet – 31 août 2026", neuf:true, lat:48.8661, lon:2.3125},
-{n:3,  cat:"musee", nom:"Musée national Picasso-Paris", adr:"5 rue de Thorigny, 75003 Paris",
+{n:3, gratuit:true,  cat:"musee", nom:"Musée national Picasso-Paris", adr:"5 rue de Thorigny, 75003 Paris",
  offre:"1 audioguide gratuit sur présentation du coupon (au lieu de 6 €)", periode:"1er juillet – 30 août 2026", neuf:true, lat:48.8598, lon:2.3626},
-{n:4,  cat:"musee", nom:"Musée Cognacq-Jay", adr:"8 rue Elzévir, 75003 Paris",
+{n:4, gratuit:true,  cat:"musee", nom:"Musée Cognacq-Jay", adr:"8 rue Elzévir, 75003 Paris",
  offre:"1 entrée gratuite (au lieu de 11 €) — « Révéler le féminin »", periode:"2 juin – 2 août 2026", neuf:true, lat:48.8578, lon:2.3623},
-{n:5,  cat:"musee", nom:"Musée de la Libération de Paris", adr:"4 avenue du Colonel Henri Rol-Tanguy, 75014 Paris",
+{n:5, gratuit:true,  cat:"musee", nom:"Musée de la Libération de Paris", adr:"4 avenue du Colonel Henri Rol-Tanguy, 75014 Paris",
  offre:"1 entrée gratuite (au lieu de 11 €) — « Robert Capa, photographe de guerre »", periode:"2 juin – 20 déc. 2026 · Offre +", neuf:true, lat:48.8339, lon:2.3320},
-{n:6,  cat:"spectacle", nom:"Théâtre Le Point Virgule", adr:"7 rue Sainte-Croix de la Bretonnerie, 75004 Paris",
+{n:6, gratuit:true,  cat:"spectacle", nom:"Théâtre Le Point Virgule", adr:"7 rue Sainte-Croix de la Bretonnerie, 75004 Paris",
  offre:"1 place à 10 € (au lieu de 20 €) ou 1 place gratuite pour un Trempoint", periode:"1er juin – 31 août 2026", neuf:true, lat:48.8580, lon:2.3550},
-{n:7,  cat:"musee", nom:"Bourse de Commerce – Pinault Collection", adr:"2 rue de Viarmes, 75001 Paris",
+{n:7, gratuit:true,  cat:"musee", nom:"Bourse de Commerce – Pinault Collection", adr:"2 rue de Viarmes, 75001 Paris",
  offre:"1 entrée gratuite (au lieu de 15 €) — collection + expo temporaire", periode:"1er juin – 30 sept. 2026", lat:48.8626, lon:2.3427},
-{n:8,  cat:"monument", nom:"Panthéon", adr:"Place du Panthéon, 75005 Paris",
+{n:8, gratuit:true,  cat:"monument", nom:"Panthéon", adr:"Place du Panthéon, 75005 Paris",
  offre:"1 entrée gratuite + 1 entrée accompagnateur·rice offerte (au lieu de 16 €)", periode:"1er juin – 30 sept. 2026", lat:48.8462, lon:2.3464},
-{n:9,  cat:"monument", nom:"Château de Vincennes", adr:"Avenue de Paris, 94300 Vincennes",
+{n:9, gratuit:true,  cat:"monument", nom:"Château de Vincennes", adr:"Avenue de Paris, 94300 Vincennes",
  offre:"1 entrée gratuite + 1 entrée accompagnateur·rice offerte (au lieu de 16 €)", periode:"1er juin – 30 sept. 2026", lat:48.8425, lon:2.4359},
-{n:10, cat:"musee", nom:"Jeu de Paume", adr:"1 place de la Concorde, 75001 Paris",
+{n:10, gratuit:true, cat:"musee", nom:"Jeu de Paume", adr:"1 place de la Concorde, 75001 Paris",
  offre:"1 entrée gratuite + 1 entrée accompagnateur·rice à 9,50 € (au lieu de 14 €)", periode:"12 juin – 27 sept. 2026", lat:48.8657, lon:2.3244},
-{n:11, cat:"musee", nom:"LE BAL", adr:"6 impasse de la Défense, 75018 Paris",
+{n:11, gratuit:true, cat:"musee", nom:"LE BAL", adr:"6 impasse de la Défense, 75018 Paris",
  offre:"1 entrée gratuite (au lieu de 8 €) — « L'espace entre nous »", periode:"19 juin – 30 sept. 2026", neuf:true, lat:48.8859, lon:2.3272, approx:true},
-{n:12, cat:"musee", nom:"Palais Galliera", adr:"10 avenue Pierre 1er de Serbie, 75116 Paris",
+{n:12, gratuit:true, cat:"musee", nom:"Palais Galliera", adr:"10 avenue Pierre 1er de Serbie, 75116 Paris",
  offre:"1 entrée gratuite (au lieu de 14 €) — « Tisser, broder, sublimer »", periode:"2 juin – 18 oct. 2026 · Offre +", lat:48.8657, lon:2.2963},
-{n:13, cat:"musee", nom:"La Fab.", adr:"6 place Jean-Michel Basquiat, 75013 Paris",
+{n:13, gratuit:true, cat:"musee", nom:"La Fab.", adr:"6 place Jean-Michel Basquiat, 75013 Paris",
  offre:"1 entrée gratuite (au lieu de 4 €) + 1 entrée accompagnateur·rice offerte (au lieu de 7 €)", periode:"1er juin – 31 juil. et 1er – 30 sept. 2026", lat:48.8295, lon:2.3806, approx:true},
-{n:14, cat:"musee", nom:"Musée d'Art Moderne de Paris", adr:"11 avenue du Président Wilson, 75116 Paris",
+{n:14, gratuit:true, cat:"musee", nom:"Musée d'Art Moderne de Paris", adr:"11 avenue du Président Wilson, 75116 Paris",
  offre:"1 entrée gratuite (au lieu de 15 €) — expo « Lee Miller »", periode:"2 juin – 2 août 2026", lat:48.8643, lon:2.2971},
-{n:15, cat:"musee", nom:"Les Étincelles du Palais de la découverte", adr:"186 rue Saint-Charles, 75015 Paris",
+{n:15, gratuit:true, cat:"musee", nom:"Les Étincelles du Palais de la découverte", adr:"186 rue Saint-Charles, 75015 Paris",
  offre:"1 entrée gratuite (au lieu de 5,50 €) + 1 entrée accompagnateur·rice offerte", periode:"1er juin – 30 sept. 2026", lat:48.8393, lon:2.2810, approx:true},
 {n:16, cat:"musee", nom:"Musée du Luxembourg", adr:"19 rue de Vaugirard, 75006 Paris",
  offre:"1 entrée « Leonora Carrington » à 6,50 € (au lieu de 10 €)", periode:"1er juin – 19 juillet 2026", lat:48.8487, lon:2.3336},
@@ -799,45 +803,45 @@ const OFFRES = [
  offre:"1 entrée à 5 € (au lieu de 7 €) + 1 accompagnateur·rice à 10 € — « Byblos »", periode:"1er juin – 23 août 2026", lat:48.8492, lon:2.3573},
 {n:18, cat:"musee", nom:"Musée du quai Branly – Jacques Chirac", adr:"37 quai Branly, 75007 Paris",
  offre:"Visites guidées des collections permanentes à 5 € (au lieu de 8 €)", periode:"1er juin – 30 sept. 2026", lat:48.8611, lon:2.2977},
-{n:19, cat:"musee", nom:"Musée de l'Air et de l'Espace", adr:"Aéroport de Paris-Le Bourget, 3 esplanade de l'Air et de l'Espace, 93350 Le Bourget",
+{n:19, gratuit:true, cat:"musee", nom:"Musée de l'Air et de l'Espace", adr:"Aéroport de Paris-Le Bourget, 3 esplanade de l'Air et de l'Espace, 93350 Le Bourget",
  offre:"1 entrée gratuite « Check-in + Boarding Pass » (au lieu de 8 €)", periode:"1er juin – 30 sept. 2026", lat:48.9459, lon:2.4325, approx:true},
-{n:20, cat:"musee", nom:"Cité des sciences et de l'industrie", adr:"30 avenue Corentin Cariou, 75019 Paris",
+{n:20, gratuit:true, cat:"musee", nom:"Cité des sciences et de l'industrie", adr:"30 avenue Corentin Cariou, 75019 Paris",
  offre:"1 entrée gratuite (au lieu de 15 €) + 1 entrée accompagnateur·rice offerte", periode:"1er juin – 30 sept. 2026", lat:48.8957, lon:2.3880},
-{n:21, cat:"musee", nom:"Fondation Henri Cartier-Bresson", adr:"79 rue des Archives, 75003 Paris",
+{n:21, gratuit:true, cat:"musee", nom:"Fondation Henri Cartier-Bresson", adr:"79 rue des Archives, 75003 Paris",
  offre:"1 entrée gratuite (au lieu de 6 €) — « Daido Moriyama » / « Nuits Balnéaires »", periode:"1er juin – 4 oct. 2026 · Offre +", lat:48.8635, lon:2.3610},
-{n:22, cat:"musee", nom:"Maison Européenne de la Photographie (MEP)", adr:"5/7 rue de Fourcy, 75004 Paris",
+{n:22, gratuit:true, cat:"musee", nom:"Maison Européenne de la Photographie (MEP)", adr:"5/7 rue de Fourcy, 75004 Paris",
  offre:"1 entrée gratuite (au lieu de 8 €)", periode:"10 juin – 13 sept. 2026", lat:48.8546, lon:2.3593},
-{n:23, cat:"musee", nom:"Palais de Tokyo", adr:"13 avenue du Président Wilson, 75116 Paris",
+{n:23, gratuit:true, cat:"musee", nom:"Palais de Tokyo", adr:"13 avenue du Président Wilson, 75116 Paris",
  offre:"1 entrée gratuite (au lieu de 9 €) + 1 accompagnateur·rice à 9 € (au lieu de 13 €)", periode:"1er juin – 13 sept. 2026", lat:48.8641, lon:2.2966},
-{n:24, cat:"cinema", nom:"Forum des images", adr:"Westfield Forum des Halles, 2 rue du Cinéma, 75001 Paris",
+{n:24, gratuit:true, cat:"cinema", nom:"Forum des images", adr:"Westfield Forum des Halles, 2 rue du Cinéma, 75001 Paris",
  offre:"1 entrée gratuite (au lieu de 6 €) + 1 entrée accompagnateur·rice offerte", periode:"1er juin – 30 sept. 2026", lat:48.8620, lon:2.3465},
-{n:25, cat:"cinema", nom:"La Cinémathèque française", adr:"51 rue de Bercy, 75012 Paris",
+{n:25, gratuit:true, cat:"cinema", nom:"La Cinémathèque française", adr:"51 rue de Bercy, 75012 Paris",
  offre:"1 place gratuite (au lieu de 4 €) + 1 place accompagnateur·rice offerte", periode:"1er juin 2026 – 31 mai 2027 · Offre +", lat:48.8371, lon:2.3823},
 {n:27, cat:"musee", nom:"Atelier des Lumières", adr:"38 rue Saint-Maur, 75011 Paris",
  offre:"15 % de remise sur le billet tarif réduit (12-25 ans)", periode:"2 juin – 31 déc. 2026 · Offre +", lat:48.8619, lon:2.3798},
 
 /* --------- 26. Cinémas d'Est Ensemble (1 place gratuite) --------- */
-{n:26, cat:"cinema", nom:"Le Cin'Hoche", grp:"Cinémas d'Est Ensemble", adr:"6 rue Hoche, 93170 Bagnolet",
+{n:26, gratuit:true, cat:"cinema", nom:"Le Cin'Hoche", grp:"Cinémas d'Est Ensemble", adr:"6 rue Hoche, 93170 Bagnolet",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.8686, lon:2.4179, approx:true},
-{n:26, cat:"cinema", nom:"Cinéma André Malraux", grp:"Cinémas d'Est Ensemble", adr:"14 rue Roger Salengro, 93140 Bondy",
+{n:26, gratuit:true, cat:"cinema", nom:"Cinéma André Malraux", grp:"Cinémas d'Est Ensemble", adr:"14 rue Roger Salengro, 93140 Bondy",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.9026, lon:2.4826, approx:true},
-{n:26, cat:"cinema", nom:"Cinéma Alice Guy", grp:"Cinémas d'Est Ensemble", adr:"Rue du Chemin Vert, 93000 Bobigny",
+{n:26, gratuit:true, cat:"cinema", nom:"Cinéma Alice Guy", grp:"Cinémas d'Est Ensemble", adr:"Rue du Chemin Vert, 93000 Bobigny",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.9066, lon:2.4487, approx:true},
-{n:26, cat:"cinema", nom:"Le Méliès", grp:"Cinémas d'Est Ensemble", adr:"12 place Jean Jaurès, 93100 Montreuil",
+{n:26, gratuit:true, cat:"cinema", nom:"Le Méliès", grp:"Cinémas d'Est Ensemble", adr:"12 place Jean Jaurès, 93100 Montreuil",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.8620, lon:2.4415, approx:true},
-{n:26, cat:"cinema", nom:"Ciné 104", grp:"Cinémas d'Est Ensemble", adr:"104 avenue Jean Lolive, 93500 Pantin",
+{n:26, gratuit:true, cat:"cinema", nom:"Ciné 104", grp:"Cinémas d'Est Ensemble", adr:"104 avenue Jean Lolive, 93500 Pantin",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.8946, lon:2.4085, approx:true},
-{n:26, cat:"cinema", nom:"Le Trianon", grp:"Cinémas d'Est Ensemble", adr:"2 place Carnot, 93230 Romainville",
+{n:26, gratuit:true, cat:"cinema", nom:"Le Trianon", grp:"Cinémas d'Est Ensemble", adr:"2 place Carnot, 93230 Romainville",
  offre:"1 place gratuite (au lieu de 4 €)", periode:"1er juin – 30 sept. 2026", lat:48.8853, lon:2.4370, approx:true},
 
 /* ---------------- SPORT ---------------- */
 {n:28, cat:"sport", nom:"Le Prisme", adr:"59 rue Marcel Cachin, 93000 Bobigny",
  offre:"Fitness 8 € · Badminton 1h 8 € · Escalade encadrée 12 € · Escalade libre 8 €", periode:"1er juin – 30 sept. 2026", neuf:true, lat:48.9134, lon:2.4262, approx:true},
-{n:30, cat:"sport", nom:"Parc du Tremblay – Padel / Pickleball / Beach tennis", adr:"11 boulevard des Alliés, 94500 Champigny-sur-Marne",
+{n:30, gratuit:true, cat:"sport", nom:"Parc du Tremblay – Padel / Pickleball / Beach tennis", adr:"11 boulevard des Alliés, 94500 Champigny-sur-Marne",
  offre:"1 heure gratuite (au lieu de 17 à 18 €)", periode:"1er juin – 30 sept. 2026", neuf:true, lat:48.8138, lon:2.4890, approx:true},
 {n:31, cat:"sport", nom:"Roller Club de France", adr:"37 boulevard Bourdon, 75004 Paris",
  offre:"Chaque cours à 12 € (au lieu de 20 €)", periode:"1er juin – 20 déc. 2026 · Offre +", lat:48.8520, lon:2.3674, approx:true},
-{n:34, cat:"sport", nom:"Complexe sportif Léo Lagrange – Tennis", adr:"25 avenue de l'Europe, 94230 Cachan",
+{n:34, gratuit:true, cat:"sport", nom:"Complexe sportif Léo Lagrange – Tennis", adr:"25 avenue de l'Europe, 94230 Cachan",
  offre:"1 heure de tennis offerte par semaine", periode:"6 juillet – 14 août 2026", lat:48.7930, lon:2.3316, approx:true},
 {n:35, cat:"pleinair", nom:"Golf du Parc du Tremblay (Vert Marine)", adr:"33 avenue Jack Gourevitch, 94500 Champigny-sur-Marne",
  offre:"Practice 6,50 € · Pitch & putt 7,90 € · Offre découverte golf 5 €", periode:"1er juin – 30 août 2026", lat:48.8155, lon:2.4930, approx:true},
@@ -847,66 +851,66 @@ const OFFRES = [
  offre:"1 vol à 12 € (au lieu de 20 €) + 1 billet accompagnateur·rice à 12 €", periode:"1er juin – 30 sept. 2026", lat:48.8383, lon:2.2731},
 {n:39, cat:"pleinair", nom:"Ecopark Adventures (accrobranche)", adr:"Parc interdépartemental de Choisy-le-Roi, 94600 Choisy-le-Roi",
  offre:"1 billet à 18 € (au lieu de 28 €)", periode:"1er juin – 8 nov. 2026", lat:48.7660, lon:2.4106, approx:true},
-{n:41, cat:"pleinair", nom:"Parc Floral de Paris", adr:"Route de la Pyramide, Bois de Vincennes, 75012 Paris",
+{n:41, gratuit:true, cat:"pleinair", nom:"Parc Floral de Paris", adr:"Route de la Pyramide, Bois de Vincennes, 75012 Paris",
  offre:"1 entrée gratuite pour le Parc Floral (au lieu de 1,60 €)", periode:"1er juin – 30 sept. 2026", lat:48.8368, lon:2.4470},
-{n:42, cat:"pleinair", nom:"Parc de Bagatelle", adr:"Route de Sèvres à Neuilly, Bois de Boulogne, 75016 Paris",
+{n:42, gratuit:true, cat:"pleinair", nom:"Parc de Bagatelle", adr:"Route de Sèvres à Neuilly, Bois de Boulogne, 75016 Paris",
  offre:"1 entrée gratuite pour le Parc de Bagatelle (au lieu de 1,60 €)", periode:"1er juin – 30 sept. 2026", lat:48.8720, lon:2.2470},
 
 /* --------- 33. Piscines d'Est Ensemble (2 entrées gratuites) --------- */
-{n:33, cat:"piscine", nom:"Piscine des Malassis", grp:"Piscines d'Est Ensemble", adr:"Rue Pierre et Marie Curie, 93170 Bagnolet", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8720, lon:2.4230, approx:true},
-{n:33, cat:"piscine", nom:"Centre nautique Jacques Brel", grp:"Piscines d'Est Ensemble", adr:"Rue Jean Racine, 93000 Bobigny", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.9070, lon:2.4400, approx:true},
-{n:33, cat:"piscine", nom:"Piscine Tournesol", grp:"Piscines d'Est Ensemble", adr:"Rue Jules Guesde, 93140 Bondy", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.9010, lon:2.4900, approx:true},
-{n:33, cat:"piscine", nom:"Piscine Fernand Blanluet", grp:"Piscines d'Est Ensemble", adr:"Rue André Joineau, 93310 Le Pré-Saint-Gervais", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8830, lon:2.4030, approx:true},
-{n:33, cat:"piscine", nom:"Piscine Mulinghausen", grp:"Piscines d'Est Ensemble", adr:"Rue Jean Moulin, 93260 Les Lilas", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8790, lon:2.4200, approx:true},
-{n:33, cat:"piscine", nom:"Piscine des Murs à Pêches", grp:"Piscines d'Est Ensemble", adr:"Rue Maurice Bouchor, 93100 Montreuil", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8660, lon:2.4530, approx:true},
-{n:33, cat:"piscine", nom:"Stade nautique Maurice Thorez", grp:"Piscines d'Est Ensemble", adr:"Rue Maurice Thorez, 93100 Montreuil", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8570, lon:2.4390, approx:true},
-{n:33, cat:"piscine", nom:"Piscine Édouard Herriot", grp:"Piscines d'Est Ensemble", adr:"Rue Édouard Herriot, 93130 Noisy-le-Sec", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8930, lon:2.4600, approx:true},
-{n:33, cat:"piscine", nom:"Piscine Alice Milliat", grp:"Piscines d'Est Ensemble", adr:"Rue Charles Auray, 93500 Pantin", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8930, lon:2.4110, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine des Malassis", grp:"Piscines d'Est Ensemble", adr:"Rue Pierre et Marie Curie, 93170 Bagnolet", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8720, lon:2.4230, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Centre nautique Jacques Brel", grp:"Piscines d'Est Ensemble", adr:"Rue Jean Racine, 93000 Bobigny", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.9070, lon:2.4400, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine Tournesol", grp:"Piscines d'Est Ensemble", adr:"Rue Jules Guesde, 93140 Bondy", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.9010, lon:2.4900, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine Fernand Blanluet", grp:"Piscines d'Est Ensemble", adr:"Rue André Joineau, 93310 Le Pré-Saint-Gervais", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8830, lon:2.4030, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine Mulinghausen", grp:"Piscines d'Est Ensemble", adr:"Rue Jean Moulin, 93260 Les Lilas", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8790, lon:2.4200, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine des Murs à Pêches", grp:"Piscines d'Est Ensemble", adr:"Rue Maurice Bouchor, 93100 Montreuil", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8660, lon:2.4530, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Stade nautique Maurice Thorez", grp:"Piscines d'Est Ensemble", adr:"Rue Maurice Thorez, 93100 Montreuil", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8570, lon:2.4390, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine Édouard Herriot", grp:"Piscines d'Est Ensemble", adr:"Rue Édouard Herriot, 93130 Noisy-le-Sec", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8930, lon:2.4600, approx:true},
+{n:33, gratuit:true, cat:"piscine", nom:"Piscine Alice Milliat", grp:"Piscines d'Est Ensemble", adr:"Rue Charles Auray, 93500 Pantin", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8930, lon:2.4110, approx:true},
 
 /* --------- 32. Piscines de la Ville de Paris (6 entrées gratuites) --------- */
-{n:32, cat:"piscine", nom:"Piscine Suzanne Berlioux", grp:"Piscines Ville de Paris", adr:"Forum des Halles, niveau -3, 75001 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8618, lon:2.3450, exclu:true},
-{n:32, cat:"piscine", nom:"Piscine Saint-Merri", grp:"Piscines Ville de Paris", adr:"16 rue du Renard, 75004 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8580, lon:2.3520},
-{n:32, cat:"piscine", nom:"Piscine Pontoise", grp:"Piscines Ville de Paris", adr:"19 rue de Pontoise, 75005 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8489, lon:2.3527, exclu:true},
-{n:32, cat:"piscine", nom:"Piscine Jean Taris", grp:"Piscines Ville de Paris", adr:"16 rue Thouin, 75005 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8446, lon:2.3489},
-{n:32, cat:"piscine", nom:"Piscine Saint-Germain", grp:"Piscines Ville de Paris", adr:"12 rue Lobineau, 75006 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8523, lon:2.3352},
-{n:32, cat:"piscine", nom:"Piscine Paul Valeyre", grp:"Piscines Ville de Paris", adr:"24 rue de Rochechouart, 75009 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8785, lon:2.3446},
-{n:32, cat:"piscine", nom:"Piscine Georges Drigny", grp:"Piscines Ville de Paris", adr:"18 rue Bochart de Saron, 75009 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8805, lon:2.3413},
-{n:32, cat:"piscine", nom:"Piscine Parmentier", grp:"Piscines Ville de Paris", adr:"155 avenue Parmentier, 75010 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8720, lon:2.3702},
-{n:32, cat:"piscine", nom:"Piscine Château-Landon", grp:"Piscines Ville de Paris", adr:"31 rue du Château-Landon, 75010 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8790, lon:2.3620},
-{n:32, cat:"piscine", nom:"Piscine de la Cour des Lions", grp:"Piscines Ville de Paris", adr:"9 rue Alphonse Baudin, 75011 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8580, lon:2.3722},
-{n:32, cat:"piscine", nom:"Piscine Georges Rigal", grp:"Piscines Ville de Paris", adr:"115 boulevard de Charonne, 75011 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8543, lon:2.3928},
-{n:32, cat:"piscine", nom:"Piscine de Reuilly", grp:"Piscines Ville de Paris", adr:"13 rue Hénard, 75012 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8412, lon:2.3888},
-{n:32, cat:"piscine", nom:"Piscine Roger Le Gall", grp:"Piscines Ville de Paris", adr:"34 boulevard Carnot, 75012 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8425, lon:2.4083},
-{n:32, cat:"piscine", nom:"Piscine Dunois", grp:"Piscines Ville de Paris", adr:"70 rue Dunois, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8324, lon:2.3665},
-{n:32, cat:"piscine", nom:"Piscine Joséphine Baker", grp:"Piscines Ville de Paris", adr:"Quai François Mauriac, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8360, lon:2.3760},
-{n:32, cat:"piscine", nom:"Piscine Château des Rentiers", grp:"Piscines Ville de Paris", adr:"184 rue du Château des Rentiers, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8250, lon:2.3620},
-{n:32, cat:"piscine", nom:"Piscine de la Butte aux Cailles", grp:"Piscines Ville de Paris", adr:"5 place Paul Verlaine, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8272, lon:2.3506},
-{n:32, cat:"piscine", nom:"Piscine Aspirant Dunand", grp:"Piscines Ville de Paris", adr:"20 rue Saillard, 75014 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8299, lon:2.3283},
-{n:32, cat:"piscine", nom:"Piscine Didot", grp:"Piscines Ville de Paris", adr:"22 avenue Georges Lafenestre, 75014 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8262, lon:2.3138},
-{n:32, cat:"piscine", nom:"Piscine Armand Massard", grp:"Piscines Ville de Paris", adr:"66 boulevard du Montparnasse, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8434, lon:2.3222},
-{n:32, cat:"piscine", nom:"Piscine Blomet", grp:"Piscines Ville de Paris", adr:"17 rue Blomet, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8443, lon:2.3082},
-{n:32, cat:"piscine", nom:"Piscine Émile Anthoine", grp:"Piscines Ville de Paris", adr:"9 rue Jean Rey, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8556, lon:2.2911},
-{n:32, cat:"piscine", nom:"Piscine René et André Mourlon", grp:"Piscines Ville de Paris", adr:"19 rue Gaston de Caillavet, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8500, lon:2.2831},
-{n:32, cat:"piscine", nom:"Piscine Keller", grp:"Piscines Ville de Paris", adr:"14 rue de l'Ingénieur Robert Keller, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8497, lon:2.2872},
-{n:32, cat:"piscine", nom:"Piscine de la Plaine", grp:"Piscines Ville de Paris", adr:"13 rue du Général Guillaumat, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8290, lon:2.2966},
-{n:32, cat:"piscine", nom:"Piscine Henry de Montherlant", grp:"Piscines Ville de Paris", adr:"30 boulevard Lannes, 75016 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8683, lon:2.2723},
-{n:32, cat:"piscine", nom:"Piscine d'Auteuil", grp:"Piscines Ville de Paris", adr:"Route des Lacs à Passy, 75016 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8530, lon:2.2570, approx:true},
-{n:32, cat:"piscine", nom:"Piscine Bernard Lafay", grp:"Piscines Ville de Paris", adr:"79 rue de la Jonquière, 75017 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8930, lon:2.3230},
-{n:32, cat:"piscine", nom:"Piscine Champerret", grp:"Piscines Ville de Paris", adr:"36 boulevard de Reims, 75017 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8880, lon:2.2985},
-{n:32, cat:"piscine", nom:"Piscine des Amiraux", grp:"Piscines Ville de Paris", adr:"6 rue Hermann Lachapelle, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8933, lon:2.3540},
-{n:32, cat:"piscine", nom:"Piscine Hébert", grp:"Piscines Ville de Paris", adr:"2 rue des Fillettes, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8925, lon:2.3620},
-{n:32, cat:"piscine", nom:"Piscine Bertrand Dauvin", grp:"Piscines Ville de Paris", adr:"12 rue René Binet, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8977, lon:2.3390},
-{n:32, cat:"piscine", nom:"Piscine Édouard Pailleron", grp:"Piscines Ville de Paris", adr:"32 rue Édouard Pailleron, 75019 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8800, lon:2.3790, exclu:true},
-{n:32, cat:"piscine", nom:"Piscine Mathis", grp:"Piscines Ville de Paris", adr:"15 rue Mathis, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8897, lon:2.3760},
-{n:32, cat:"piscine", nom:"Piscine Georges Hermant", grp:"Piscines Ville de Paris", adr:"6 rue David d'Angers, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8830, lon:2.3960},
-{n:32, cat:"piscine", nom:"Piscine Rouvet", grp:"Piscines Ville de Paris", adr:"1 rue Rouvet, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8925, lon:2.3855},
-{n:32, cat:"piscine", nom:"Piscine Alfred Nakache", grp:"Piscines Ville de Paris", adr:"4-12 rue Dénoyez, 75020 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8720, lon:2.3830},
-{n:32, cat:"piscine", nom:"Piscine Georges Vallerey", grp:"Piscines Ville de Paris", adr:"148 avenue Gambetta, 75020 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8730, lon:2.4020}
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Suzanne Berlioux", grp:"Piscines Ville de Paris", adr:"Forum des Halles, niveau -3, 75001 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8618, lon:2.3450, exclu:true},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Saint-Merri", grp:"Piscines Ville de Paris", adr:"16 rue du Renard, 75004 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8580, lon:2.3520},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Pontoise", grp:"Piscines Ville de Paris", adr:"19 rue de Pontoise, 75005 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8489, lon:2.3527, exclu:true},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Jean Taris", grp:"Piscines Ville de Paris", adr:"16 rue Thouin, 75005 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8446, lon:2.3489},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Saint-Germain", grp:"Piscines Ville de Paris", adr:"12 rue Lobineau, 75006 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8523, lon:2.3352},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Paul Valeyre", grp:"Piscines Ville de Paris", adr:"24 rue de Rochechouart, 75009 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8785, lon:2.3446},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Georges Drigny", grp:"Piscines Ville de Paris", adr:"18 rue Bochart de Saron, 75009 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8805, lon:2.3413},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Parmentier", grp:"Piscines Ville de Paris", adr:"155 avenue Parmentier, 75010 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8720, lon:2.3702},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Château-Landon", grp:"Piscines Ville de Paris", adr:"31 rue du Château-Landon, 75010 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8790, lon:2.3620},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine de la Cour des Lions", grp:"Piscines Ville de Paris", adr:"9 rue Alphonse Baudin, 75011 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8580, lon:2.3722},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Georges Rigal", grp:"Piscines Ville de Paris", adr:"115 boulevard de Charonne, 75011 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8543, lon:2.3928},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine de Reuilly", grp:"Piscines Ville de Paris", adr:"13 rue Hénard, 75012 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8412, lon:2.3888},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Roger Le Gall", grp:"Piscines Ville de Paris", adr:"34 boulevard Carnot, 75012 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8425, lon:2.4083},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Dunois", grp:"Piscines Ville de Paris", adr:"70 rue Dunois, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8324, lon:2.3665},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Joséphine Baker", grp:"Piscines Ville de Paris", adr:"Quai François Mauriac, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8360, lon:2.3760},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Château des Rentiers", grp:"Piscines Ville de Paris", adr:"184 rue du Château des Rentiers, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8250, lon:2.3620},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine de la Butte aux Cailles", grp:"Piscines Ville de Paris", adr:"5 place Paul Verlaine, 75013 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8272, lon:2.3506},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Aspirant Dunand", grp:"Piscines Ville de Paris", adr:"20 rue Saillard, 75014 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8299, lon:2.3283},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Didot", grp:"Piscines Ville de Paris", adr:"22 avenue Georges Lafenestre, 75014 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8262, lon:2.3138},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Armand Massard", grp:"Piscines Ville de Paris", adr:"66 boulevard du Montparnasse, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8434, lon:2.3222},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Blomet", grp:"Piscines Ville de Paris", adr:"17 rue Blomet, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8443, lon:2.3082},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Émile Anthoine", grp:"Piscines Ville de Paris", adr:"9 rue Jean Rey, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8556, lon:2.2911},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine René et André Mourlon", grp:"Piscines Ville de Paris", adr:"19 rue Gaston de Caillavet, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8500, lon:2.2831},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Keller", grp:"Piscines Ville de Paris", adr:"14 rue de l'Ingénieur Robert Keller, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8497, lon:2.2872},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine de la Plaine", grp:"Piscines Ville de Paris", adr:"13 rue du Général Guillaumat, 75015 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8290, lon:2.2966},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Henry de Montherlant", grp:"Piscines Ville de Paris", adr:"30 boulevard Lannes, 75016 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8683, lon:2.2723},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine d'Auteuil", grp:"Piscines Ville de Paris", adr:"Route des Lacs à Passy, 75016 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8530, lon:2.2570, approx:true},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Bernard Lafay", grp:"Piscines Ville de Paris", adr:"79 rue de la Jonquière, 75017 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8930, lon:2.3230},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Champerret", grp:"Piscines Ville de Paris", adr:"36 boulevard de Reims, 75017 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8880, lon:2.2985},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine des Amiraux", grp:"Piscines Ville de Paris", adr:"6 rue Hermann Lachapelle, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8933, lon:2.3540},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Hébert", grp:"Piscines Ville de Paris", adr:"2 rue des Fillettes, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8925, lon:2.3620},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Bertrand Dauvin", grp:"Piscines Ville de Paris", adr:"12 rue René Binet, 75018 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8977, lon:2.3390},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Édouard Pailleron", grp:"Piscines Ville de Paris", adr:"32 rue Édouard Pailleron, 75019 Paris", offre:"⚠️ Piscine EXCLUE de l'offre Pass Jeunes", periode:"—", lat:48.8800, lon:2.3790, exclu:true},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Mathis", grp:"Piscines Ville de Paris", adr:"15 rue Mathis, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8897, lon:2.3760},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Georges Hermant", grp:"Piscines Ville de Paris", adr:"6 rue David d'Angers, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8830, lon:2.3960},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Rouvet", grp:"Piscines Ville de Paris", adr:"1 rue Rouvet, 75019 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8925, lon:2.3855},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Alfred Nakache", grp:"Piscines Ville de Paris", adr:"4-12 rue Dénoyez, 75020 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8720, lon:2.3830},
+{n:32, gratuit:true, cat:"piscine", nom:"Piscine Georges Vallerey", grp:"Piscines Ville de Paris", adr:"148 avenue Gambetta, 75020 Paris", offre:"6 entrées gratuites", periode:"1er juin – 2 nov. 2026 · Offre +", lat:48.8730, lon:2.4020}
 ];
 
 // Offres valables dans un réseau de sites, sans adresse unique dans le chéquier
 const SANS_ADRESSE = [
- {n:29, nom:"Swedish Fit", offre:"1er mois offert avec cours en illimité — 50 salles en Île-de-France", periode:"1er juin – 30 sept. 2026"},
+ {n:29, gratuit:true, nom:"Swedish Fit", offre:"1er mois offert avec cours en illimité — 50 salles en Île-de-France", periode:"1er juin – 30 sept. 2026"},
  {n:40, nom:"Paris Ma Belle", offre:"1 place à 8 € (au lieu de 15 €) pour un jeu de piste au choix, le samedi à 13h45 ou 14h30 — points de départ variables dans Paris", periode:"1er juin – 30 sept. 2026"},
  {n:37, nom:"AccroCamp", offre:"−50 % sur les parcours accrobranche et les filets d'escalade — plusieurs parcs en Île-de-France", periode:"1er juin – fermeture de la saison · Offre +"}
 ];
@@ -967,6 +971,9 @@ L.control.scale({imperial:false}).addTo(map);
 
 /* ---------- marqueurs ---------- */
 const active = new Set(Object.keys(CATS));
+const prixActive = new Set(['gratuit', 'reduit']);   // les deux cochés au départ
+const PRIX = {gratuit:{label:'Gratuit', color:'#0CA678', emoji:'✅'},
+              reduit :{label:'Tarif réduit', color:'#F59F00', emoji:'💶'}};
 let query = '';
 const layer = L.layerGroup().addTo(map);
 const items = OFFRES.map(o => {
@@ -989,6 +996,7 @@ function popupHTML(o){
     <div class="pop-nom">${o.nom}<span class="badge">coupon ${o.n}</span>${o.neuf ? '<span class="badge neuf">nouveauté</span>' : ''}</div>
     <div class="pop-adr">${o.adr}${o.approx ? ' <i>(position approx.)</i>' : ''}</div>
     <div class="pop-offre">${o.offre}</div>
+    <div><span class="badge prix${o.gratuit ? '' : ' reduit'}">${o.gratuit ? '✅ gratuit avec le Pass' : '💶 tarif réduit'}</span></div>
     <div class="pop-per">🗓️ ${o.periode}</div>
     <div class="pop-links"><a href="${maps}" target="_blank" rel="noopener">Itinéraire ↗</a>
     <a href="https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres" target="_blank" rel="noopener">Le Pass ↗</a></div>`;
@@ -998,26 +1006,32 @@ function render(){
   layer.clearLayers();
   let n = 0;
   items.forEach(it => {
-    const ok = active.has(it.o.cat) && (!query || it.hay.includes(query));
+    const ok = active.has(it.o.cat)
+            && prixActive.has(it.o.gratuit ? 'gratuit' : 'reduit')
+            && (!query || it.hay.includes(query));
     if (ok){ layer.addLayer(it.m); n++; }
   });
   document.getElementById('count').textContent = n + ' lieu' + (n>1?'x':'') + ' affiché' + (n>1?'s':'');
 }
 
 /* ---------- filtres ---------- */
-const chips = document.getElementById('chips');
-Object.entries(CATS).forEach(([k,c]) => {
-  const el = document.createElement('div');
-  el.className = 'chip on';
-  el.style.background = c.color; el.style.borderColor = c.color;
-  el.innerHTML = `<span class="dot" style="background:#0f1115"></span>${c.emoji} ${c.label}`;
-  el.onclick = () => {
-    if (active.has(k)) { active.delete(k); el.classList.remove('on'); el.style.background=''; el.style.borderColor=''; }
-    else { active.add(k); el.classList.add('on'); el.style.background=c.color; el.style.borderColor=c.color; }
-    render();
-  };
-  chips.appendChild(el);
-});
+function makeChips(containerId, defs, set){
+  const box = document.getElementById(containerId);
+  Object.entries(defs).forEach(([k, c]) => {
+    const el = document.createElement('div');
+    el.className = 'chip on';
+    el.style.background = c.color; el.style.borderColor = c.color;
+    el.innerHTML = `<span class="dot" style="background:#0f1115"></span>${c.emoji} ${c.label}`;
+    el.onclick = () => {
+      if (set.has(k)) { set.delete(k); el.classList.remove('on'); el.style.background=''; el.style.borderColor=''; }
+      else { set.add(k); el.classList.add('on'); el.style.background=c.color; el.style.borderColor=c.color; }
+      render();
+    };
+    box.appendChild(el);
+  });
+}
+makeChips('chips', CATS, active);
+makeChips('chipsPrix', PRIX, prixActive);
 
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); render(); });
 document.getElementById('fit').onclick = () => map.fitBounds(L.latLngBounds(OFFRES.map(o=>[o.lat,o.lon])), {padding:[30,30]});
