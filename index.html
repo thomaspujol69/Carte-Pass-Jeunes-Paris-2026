@@ -6,7 +6,7 @@
 <title>Carte du Pass Jeunes Paris 2026</title>
 <meta name="description" content="Carte interactive de toutes les offres du Pass Jeunes 2026 de la Ville de Paris, sur fond de carte IGN.">
 <style>
-/* Leaflet 1.9.4 — BSD-2-Clause — https://leafletjs.com */
+/* Leaflet 1.9.4 — BSD-2-Clause */
 /* required styles */
 
 .leaflet-pane,
@@ -711,6 +711,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   .pop-links{margin-top:9px;display:flex;gap:10px;font-size:12.5px}
   .pop-links a{color:var(--accent);text-decoration:none}
   .badge{display:inline-block;background:#2b303b;color:var(--muted);border-radius:6px;padding:1px 6px;font-size:11px;margin-left:6px}
+  .badge.neuf{background:var(--accent);color:#0f1115;font-weight:700}
 
   .tilewarn{background:rgba(23,26,33,.92);border:1px solid var(--line);color:var(--muted);
     border-radius:9px;padding:7px 10px;font-size:12px;max-width:62vw}
@@ -755,24 +756,25 @@ svg.leaflet-image-layer.leaflet-interactive path {
 //# sourceMappingURL=leaflet.js.map
 </script>
 <script>
-// Données Pass Jeunes 2026 — source : chéquier officiel Ville de Paris
-// https://cdn.paris.fr/paris/2026/05/28/v8_chequier-pass-jeunes-2026-vdefimp-1-1-VwoT.pdf
+// Données Pass Jeunes 2026 — source : page officielle « Les offres du Pass Jeunes »
+// https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres
+// (42 offres) complétée par le chéquier PDF pour les périodes et les listes de sous-lieux
 // approx:true => position affinée au chargement via l'API Adresse (BAN), sinon coord. de repli
 
 const OFFRES = [
 /* ---------------- CULTURE ---------------- */
 {n:1,  cat:"monument", nom:"Tour Eiffel", adr:"5 avenue Anatole-France, 75007 Paris",
- offre:"1 billet pour l'accès au 2e étage à 3,80 € par les escaliers (au lieu de 7,40 €)", periode:"1er juin – 30 sept. 2026", lat:48.8584, lon:2.2945},
+ offre:"1 billet pour l'accès au 2e étage à 3,80 € par les escaliers (au lieu de 7,30 €)", periode:"1er juin – 30 sept. 2026", lat:48.8584, lon:2.2945},
 {n:2,  cat:"musee", nom:"Grand Palais", adr:"17 avenue du Général Eisenhower, 75008 Paris",
- offre:"1 entrée gratuite + 1 entrée accompagnateur·rice offerte (au lieu de 15 €) — expo Hilma af Klint", periode:"4 juillet – 31 août 2026", lat:48.8661, lon:2.3125},
+ offre:"1 entrée gratuite + 1 entrée accompagnateur·rice offerte (au lieu de 15 €) — expo Hilma af Klint", periode:"4 juillet – 31 août 2026", neuf:true, lat:48.8661, lon:2.3125},
 {n:3,  cat:"musee", nom:"Musée national Picasso-Paris", adr:"5 rue de Thorigny, 75003 Paris",
- offre:"1 audioguide gratuit sur présentation du coupon (au lieu de 6 €)", periode:"1er juillet – 30 août 2026", lat:48.8598, lon:2.3626},
+ offre:"1 audioguide gratuit sur présentation du coupon (au lieu de 6 €)", periode:"1er juillet – 30 août 2026", neuf:true, lat:48.8598, lon:2.3626},
 {n:4,  cat:"musee", nom:"Musée Cognacq-Jay", adr:"8 rue Elzévir, 75003 Paris",
- offre:"1 entrée gratuite (au lieu de 11 €) — « Révéler le féminin »", periode:"2 juin – 2 août 2026", lat:48.8578, lon:2.3623},
+ offre:"1 entrée gratuite (au lieu de 11 €) — « Révéler le féminin »", periode:"2 juin – 2 août 2026", neuf:true, lat:48.8578, lon:2.3623},
 {n:5,  cat:"musee", nom:"Musée de la Libération de Paris", adr:"4 avenue du Colonel Henri Rol-Tanguy, 75014 Paris",
- offre:"1 entrée gratuite (au lieu de 11 €) — « Robert Capa, photographe de guerre »", periode:"2 juin – 20 déc. 2026 · Offre +", lat:48.8339, lon:2.3320},
+ offre:"1 entrée gratuite (au lieu de 11 €) — « Robert Capa, photographe de guerre »", periode:"2 juin – 20 déc. 2026 · Offre +", neuf:true, lat:48.8339, lon:2.3320},
 {n:6,  cat:"spectacle", nom:"Théâtre Le Point Virgule", adr:"7 rue Sainte-Croix de la Bretonnerie, 75004 Paris",
- offre:"1 place à 10 € (au lieu de 20 €) ou 1 place gratuite pour un Trempoint", periode:"1er juin – 31 août 2026", lat:48.8580, lon:2.3550},
+ offre:"1 place à 10 € (au lieu de 20 €) ou 1 place gratuite pour un Trempoint", periode:"1er juin – 31 août 2026", neuf:true, lat:48.8580, lon:2.3550},
 {n:7,  cat:"musee", nom:"Bourse de Commerce – Pinault Collection", adr:"2 rue de Viarmes, 75001 Paris",
  offre:"1 entrée gratuite (au lieu de 15 €) — collection + expo temporaire", periode:"1er juin – 30 sept. 2026", lat:48.8626, lon:2.3427},
 {n:8,  cat:"monument", nom:"Panthéon", adr:"Place du Panthéon, 75005 Paris",
@@ -782,7 +784,7 @@ const OFFRES = [
 {n:10, cat:"musee", nom:"Jeu de Paume", adr:"1 place de la Concorde, 75001 Paris",
  offre:"1 entrée gratuite + 1 entrée accompagnateur·rice à 9,50 € (au lieu de 14 €)", periode:"12 juin – 27 sept. 2026", lat:48.8657, lon:2.3244},
 {n:11, cat:"musee", nom:"LE BAL", adr:"6 impasse de la Défense, 75018 Paris",
- offre:"1 entrée gratuite (au lieu de 8 €) — « L'espace entre nous »", periode:"19 juin – 30 sept. 2026", lat:48.8859, lon:2.3272, approx:true},
+ offre:"1 entrée gratuite (au lieu de 8 €) — « L'espace entre nous »", periode:"19 juin – 30 sept. 2026", neuf:true, lat:48.8859, lon:2.3272, approx:true},
 {n:12, cat:"musee", nom:"Palais Galliera", adr:"10 avenue Pierre 1er de Serbie, 75116 Paris",
  offre:"1 entrée gratuite (au lieu de 14 €) — « Tisser, broder, sublimer »", periode:"2 juin – 18 oct. 2026 · Offre +", lat:48.8657, lon:2.2963},
 {n:13, cat:"musee", nom:"La Fab.", adr:"6 place Jean-Michel Basquiat, 75013 Paris",
@@ -830,9 +832,9 @@ const OFFRES = [
 
 /* ---------------- SPORT ---------------- */
 {n:28, cat:"sport", nom:"Le Prisme", adr:"59 rue Marcel Cachin, 93000 Bobigny",
- offre:"Fitness 8 € · Badminton 1h 8 € · Escalade encadrée 12 € · Escalade libre 8 €", periode:"1er juin – 30 sept. 2026", lat:48.9134, lon:2.4262, approx:true},
+ offre:"Fitness 8 € · Badminton 1h 8 € · Escalade encadrée 12 € · Escalade libre 8 €", periode:"1er juin – 30 sept. 2026", neuf:true, lat:48.9134, lon:2.4262, approx:true},
 {n:30, cat:"sport", nom:"Parc du Tremblay – Padel / Pickleball / Beach tennis", adr:"11 boulevard des Alliés, 94500 Champigny-sur-Marne",
- offre:"1 heure gratuite (au lieu de 17 à 18 €)", periode:"1er juin – 30 sept. 2026", lat:48.8138, lon:2.4890, approx:true},
+ offre:"1 heure gratuite (au lieu de 17 à 18 €)", periode:"1er juin – 30 sept. 2026", neuf:true, lat:48.8138, lon:2.4890, approx:true},
 {n:31, cat:"sport", nom:"Roller Club de France", adr:"37 boulevard Bourdon, 75004 Paris",
  offre:"Chaque cours à 12 € (au lieu de 20 €)", periode:"1er juin – 20 déc. 2026 · Offre +", lat:48.8520, lon:2.3674, approx:true},
 {n:34, cat:"sport", nom:"Complexe sportif Léo Lagrange – Tennis", adr:"25 avenue de l'Europe, 94230 Cachan",
@@ -843,10 +845,12 @@ const OFFRES = [
  offre:"1 billet au tarif découverte de 20 € (au lieu de 33 €)", periode:"1er juin – 30 oct. 2026 · Offre +", lat:48.7766, lon:2.4482, approx:true},
 {n:38, cat:"pleinair", nom:"Ballon Generali de Paris", adr:"Parc André-Citroën, 75015 Paris",
  offre:"1 vol à 12 € (au lieu de 20 €) + 1 billet accompagnateur·rice à 12 €", periode:"1er juin – 30 sept. 2026", lat:48.8383, lon:2.2731},
-{n:39, cat:"pleinair", nom:"Ecopark Adventures – Créteil Pompadour", adr:"Créteil Pompadour, 94000 Créteil",
- offre:"1 billet à 18 € (au lieu de 28 €)", periode:"1er juin – 8 nov. 2026", lat:48.7772, lon:2.4494, approx:true},
-{n:39, cat:"pleinair", nom:"Ecopark Adventures – Sannois", adr:"Colline des Châtaigniers, 95110 Sannois",
- offre:"1 billet à 18 € (au lieu de 28 €)", periode:"1er juin – 8 nov. 2026", lat:48.9740, lon:2.2560, approx:true},
+{n:39, cat:"pleinair", nom:"Ecopark Adventures (accrobranche)", adr:"Parc interdépartemental de Choisy-le-Roi, 94600 Choisy-le-Roi",
+ offre:"1 billet à 18 € (au lieu de 28 €)", periode:"1er juin – 8 nov. 2026", lat:48.7660, lon:2.4106, approx:true},
+{n:41, cat:"pleinair", nom:"Parc Floral de Paris", adr:"Route de la Pyramide, Bois de Vincennes, 75012 Paris",
+ offre:"1 entrée gratuite pour le Parc Floral (au lieu de 1,60 €)", periode:"1er juin – 30 sept. 2026", lat:48.8368, lon:2.4470},
+{n:42, cat:"pleinair", nom:"Parc de Bagatelle", adr:"Route de Sèvres à Neuilly, Bois de Boulogne, 75016 Paris",
+ offre:"1 entrée gratuite pour le Parc de Bagatelle (au lieu de 1,60 €)", periode:"1er juin – 30 sept. 2026", lat:48.8720, lon:2.2470},
 
 /* --------- 33. Piscines d'Est Ensemble (2 entrées gratuites) --------- */
 {n:33, cat:"piscine", nom:"Piscine des Malassis", grp:"Piscines d'Est Ensemble", adr:"Rue Pierre et Marie Curie, 93170 Bagnolet", offre:"2 entrées gratuites", periode:"1er juin – 30 août 2026", lat:48.8720, lon:2.4230, approx:true},
@@ -903,6 +907,7 @@ const OFFRES = [
 // Offres valables dans un réseau de sites, sans adresse unique dans le chéquier
 const SANS_ADRESSE = [
  {n:29, nom:"Swedish Fit", offre:"1er mois offert avec cours en illimité — 50 salles en Île-de-France", periode:"1er juin – 30 sept. 2026"},
+ {n:40, nom:"Paris Ma Belle", offre:"1 place à 8 € (au lieu de 15 €) pour un jeu de piste au choix, le samedi à 13h45 ou 14h30 — points de départ variables dans Paris", periode:"1er juin – 30 sept. 2026"},
  {n:37, nom:"AccroCamp", offre:"−50 % sur les parcours accrobranche et les filets d'escalade — plusieurs parcs en Île-de-France", periode:"1er juin – fermeture de la saison · Offre +"}
 ];
 
@@ -981,7 +986,7 @@ function popupHTML(o){
   const c = CATS[o.cat];
   const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(o.nom + ', ' + o.adr);
   return `<div class="pop-cat" style="color:${c.color}">${c.emoji} ${c.label}${o.grp ? ' · '+o.grp : ''}</div>
-    <div class="pop-nom">${o.nom}<span class="badge">coupon ${o.n}</span></div>
+    <div class="pop-nom">${o.nom}<span class="badge">coupon ${o.n}</span>${o.neuf ? '<span class="badge neuf">nouveauté</span>' : ''}</div>
     <div class="pop-adr">${o.adr}${o.approx ? ' <i>(position approx.)</i>' : ''}</div>
     <div class="pop-offre">${o.offre}</div>
     <div class="pop-per">🗓️ ${o.periode}</div>
