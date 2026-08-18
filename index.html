@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Carte du Pass Jeunes Paris 2026</title>
-<meta name="description" content="Carte interactive de toutes les offres du Pass Jeunes 2026 de la Ville de Paris, sur fond de carte IGN.">
+<title>Bons plans jeunes à Paris — la carte</title>
+<meta name="description" content="Carte interactive des bons plans gratuits ou à tarif réduit pour les moins de 26 ans et les étudiants à Paris et en Île-de-France, Pass Jeunes inclus, sur fond de carte IGN.">
 <style>
 /* Leaflet 1.9.4 — BSD-2-Clause */
 /* required styles */
@@ -671,86 +671,76 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 </style>
 <style>
-  :root{
-    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2b303b;
-    --txt:#e8eaf0; --muted:#9aa3b2; --accent:#ffd43b;
-  }
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2b303b;--txt:#e8eaf0;--muted:#9aa3b2;--accent:#ffd43b}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt)}
   #app{display:flex;flex-direction:column;height:100%}
-
-  header{padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);flex:0 0 auto}
+  header{padding:10px 14px 6px;background:var(--panel);border-bottom:1px solid var(--line);flex:0 0 auto}
   .titleline{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
   .count{font-size:12px;color:var(--muted)}
   .tools{display:flex;gap:8px;margin-top:8px}
-  input[type=search]{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);color:var(--txt);
-    border-radius:9px;padding:8px 10px;font-size:14px;outline:none}
+  input[type=search]{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:14px;outline:none}
   input[type=search]::placeholder{color:var(--muted)}
-  button.btn{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:9px;
-    padding:8px 11px;font-size:13px;cursor:pointer;white-space:nowrap}
+  button.btn{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 11px;font-size:13px;cursor:pointer;white-space:nowrap}
   button.btn:active{transform:scale(.97)}
-
-  .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding:7px 0 1px;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
-  .chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel2);
-    color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap;user-select:none}
+  .chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap;user-select:none}
   .chip .dot{width:9px;height:9px;border-radius:50%}
   .chip.on{color:#0f1115;font-weight:600}
-
   #map{flex:1 1 auto;background:#20242e}
   .leaflet-container{font:inherit}
   .leaflet-popup-content-wrapper{background:var(--panel);color:var(--txt);border-radius:12px}
   .leaflet-popup-tip{background:var(--panel)}
-  .leaflet-popup-content{margin:12px 14px;line-height:1.45;font-size:13.5px;max-width:260px}
+  .leaflet-popup-content{margin:12px 14px;line-height:1.45;font-size:13.5px;max-width:270px}
   .pop-cat{font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:700}
   .pop-nom{font-size:15px;font-weight:650;margin:2px 0 6px}
   .pop-adr{color:var(--muted);font-size:12.5px;margin-bottom:6px}
   .pop-offre{margin-bottom:6px}
   .pop-per{color:var(--muted);font-size:12px}
-  .pop-links{margin-top:9px;display:flex;gap:10px;font-size:12.5px}
+  .pop-links{margin-top:9px;display:flex;gap:10px;font-size:12.5px;flex-wrap:wrap}
   .pop-links a{color:var(--accent);text-decoration:none}
   .badge{display:inline-block;background:#2b303b;color:var(--muted);border-radius:6px;padding:1px 6px;font-size:11px;margin-left:6px}
   .badge.neuf{background:var(--accent);color:#0f1115;font-weight:700}
-  .badge.prix{background:#0CA678;color:#0f1115;font-weight:700}
+  .badge.prix{background:#0CA678;color:#0f1115;font-weight:700;margin:0}
   .badge.prix.reduit{background:#3d4452;color:#dfe3ea}
-  #chipsPrix{padding-top:2px}
-
-  .tilewarn{background:rgba(23,26,33,.92);border:1px solid var(--line);color:var(--muted);
-    border-radius:9px;padding:7px 10px;font-size:12px;max-width:62vw}
-  footer{flex:0 0 auto;background:var(--panel);border-top:1px solid var(--line);
-    padding:8px 14px calc(8px + env(safe-area-inset-bottom));font-size:11.5px;color:var(--muted)}
+  .badge.pub{background:#364FC7;color:#e8eaf0;margin-left:5px}
+  .tilewarn{background:rgba(23,26,33,.92);border:1px solid var(--line);color:var(--muted);border-radius:9px;padding:7px 10px;font-size:12px;max-width:62vw}
+  footer{flex:0 0 auto;background:var(--panel);border-top:1px solid var(--line);padding:8px 14px calc(8px + env(safe-area-inset-bottom));font-size:11.5px;color:var(--muted)}
   footer a{color:var(--muted)}
   details.extra summary{cursor:pointer;color:var(--accent);list-style:none}
   details.extra summary::-webkit-details-marker{display:none}
-  details.extra p{margin:6px 0 0}
+  details.extra .body{margin:8px 0 0;max-height:34vh;overflow:auto}
+  details.extra li{margin-bottom:7px}
+  .lgd{display:inline-flex;align-items:center;gap:5px;margin-right:12px}
+  .lgd i{width:11px;height:11px;border-radius:50%;display:inline-block}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
     <div class="titleline">
-      <h1>🎟️ Pass Jeunes Paris 2026 — la carte</h1>
+      <h1>🎟️ Bons plans jeunes à Paris — la carte</h1>
       <span class="count" id="count"></span>
     </div>
     <div class="tools">
-      <input type="search" id="q" placeholder="Chercher un lieu, une offre…" autocomplete="off">
+      <input type="search" id="q" placeholder="Chercher un lieu, un tarif, une offre…" autocomplete="off">
       <button class="btn" id="geo" title="Autour de moi">📍</button>
       <button class="btn" id="fit" title="Tout voir">⤢</button>
     </div>
+    <div class="chips" id="chipsSrc"></div>
     <div class="chips" id="chips"></div>
     <div class="chips" id="chipsPrix"></div>
   </header>
-
   <div id="map"></div>
-
   <footer>
-    Fond de carte <b>Plan IGN</b> — © IGN / Géoplateforme · Données : chéquier officiel
-    <a href="https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres" target="_blank" rel="noopener">Pass Jeunes</a> de la Ville de Paris.
-    <details class="extra"><summary>Offres sans lieu fixe + avertissement</summary><p id="extra"></p></details>
+    <span class="lgd"><i style="background:#9aa3b2"></i>disque = Pass Jeunes</span>
+    <span class="lgd"><i style="border:2px solid #9aa3b2"></i>anneau = bon plan à l'année</span>
+    Fond <b>Plan IGN</b> — © IGN / Géoplateforme.
+    <details class="extra"><summary>Offres sans lieu fixe, cartes & dispositifs — et avertissement</summary><div class="body" id="extra"></div></details>
   </footer>
 </div>
-
 <script>/* Leaflet 1.9.4 — BSD-2-Clause */
 /* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
@@ -927,86 +917,262 @@ const CATS = {
 
 </script>
 <script>
-/* ---------- carte ---------- */
+// Bons plans -26 ans / étudiants à Paris et en Île-de-France — collecte août 2026.
+// Chaque entrée a été vérifiée sur la source officielle indiquée dans `url`.
+// Tarifs et conditions changent : vérifier avant de se déplacer.
+
+const BONS_PLANS = [{"nom": "Musée du Louvre","cat": "musee","adr": "Cour Napoléon, rue de Rivoli, 75001 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.louvre.fr/en/visit/hours-admission","note": "Gratuit pour les -26 ans résidents EEE, sur pièce d'identité ; créneau à réserver.","lat": 48.8606,"lon": 2.3376},
+{"nom": "Musée d'Orsay","cat": "musee","adr": "Esplanade Valéry Giscard d'Estaing, 75007 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.musee-orsay.fr/en/visit/admission-opening-times-tickets","note": "Gratuit 18-25 ans UE/EEE ; gratuit pour tous le 1er dimanche du mois.","lat": 48.85995,"lon": 2.3266},
+{"nom": "Musée de l'Orangerie","cat": "musee","adr": "Jardin des Tuileries, 75001 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.musee-orangerie.fr/en/articles/free-admission-105449","note": "Gratuit 18-25 ans UE/EEE, et étudiants en art jusqu'à 30 ans.","lat": 48.86381,"lon": 2.32257},
+{"nom": "Musée du quai Branly – Jacques Chirac","cat": "musee","adr": "37 quai Branly, 75007 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://m.quaibranly.fr/en/if-you-are/young-18-30-years","note": "Gratuité des collections ET de toutes les expositions temporaires pour les 18-25 ans UE/EEE.","lat": 48.861,"lon": 2.2979},
+{"nom": "Musée Rodin","cat": "musee","adr": "77 rue de Varenne, 75007 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.musee-rodin.fr/en/plan-your-visit/plan-your-visit/are-you-entitled-free-admission","note": "Gratuit 18-25 ans UE/EEE. Jardin de sculptures superbe.","lat": 48.8553,"lon": 2.3158},
+{"nom": "Musée de Cluny – Moyen Âge","cat": "musee","adr": "28 rue Du Sommerard, 75005 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.musee-moyenage.fr/visiter/preparer-sa-visite/tarifs.html","note": "Gratuit -26 ans résidents UE ; gratuit pour tous le 1er dimanche du mois.","lat": 48.8506,"lon": 2.3444},
+{"nom": "Musée Guimet – arts asiatiques","cat": "musee","adr": "6 place d'Iéna, 75116 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.guimet.fr/en/admissionfees","note": "Gratuit -26 ans UE/EEE ; gratuit pour tous le 1er dimanche du mois.","lat": 48.8654,"lon": 2.2938},
+{"nom": "Musée national Picasso-Paris","cat": "musee","adr": "5 rue de Thorigny, 75003 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.museepicassoparis.fr/en/there-special-price-young-visitors","note": "Gratuit pour tout résident UE de -26 ans, entrée directe sans réservation.","lat": 48.85985,"lon": 2.3625},
+{"nom": "Musée des Arts et Métiers","cat": "musee","adr": "60 rue Réaumur, 75003 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.arts-et-metiers.net/musee/tarifs","note": "Gratuit -26 ans (UE et hors UE) ; aussi gratuit pour tous le vendredi 18h-21h.","lat": 48.8657,"lon": 2.3559},
+{"nom": "Musée national Eugène-Delacroix","cat": "musee","adr": "6 rue de Furstemberg, 75006 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.musee-delacroix.fr/fr/visiter/horaires-et-tarifs/horaires-et-tarifs","note": "Gratuit -26 ans résidents UE (plein tarif 9 €).","lat": 48.8548,"lon": 2.3345},
+{"nom": "Musée Gustave Moreau","cat": "musee","adr": "14 rue de La Rochefoucauld, 75009 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://musee-moreau.fr/en/opening-hours-and-prices","note": "Gratuit -26 ans ressortissants UE. Atelier d'artiste intact, escalier en colimaçon.","lat": 48.8784,"lon": 2.332},
+{"nom": "Musée de l'Armée – Invalides","cat": "musee","adr": "129 rue de Grenelle, 75007 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.musee-armee.fr/votre-visite/horaires-et-tarifs/gratuites-et-reduction.html","note": "Gratuit -26 ans UE/EEE sur les collections permanentes ; expositions temporaires payantes.","lat": 48.857,"lon": 2.3125},
+{"nom": "Grande Galerie de l'Évolution","cat": "musee","adr": "36 rue Geoffroy-Saint-Hilaire, 75005 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.mnhn.fr/en/grande-galerie-de-l-evolution-gallery-of-evolution","note": "Gratuit pour les résidents UE de -25 ans sur justificatif ; sinon 10 €.","lat": 48.8434,"lon": 2.3562},
+{"nom": "Institut du monde arabe","cat": "musee","adr": "1 rue des Fossés Saint-Bernard, 75005 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf lundi","url": "https://www.imarabe.org/fr/horaires-tarifs","note": "Musée gratuit -26 ans sur justificatif ; terrasse panoramique en accès libre pour tous.","lat": 48.8492,"lon": 2.3568},
+{"nom": "Cité de l'architecture & du patrimoine","cat": "musee","adr": "1 place du Trocadéro, 75116 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, sauf mardi","url": "https://www.citedelarchitecture.fr/","note": "Gratuit -25 ans ressortissants UE ; gratuit pour tous le 1er dimanche du mois.","lat": 48.8629,"lon": 2.2885},
+{"nom": "Musée d'Archéologie nationale – Saint-Germain-en-Laye","cat": "musee","adr": "Château, place Charles-de-Gaulle, 78100 Saint-Germain-en-Laye","tarif": "gratuit","gratuit": true,"public": "tous","quand": "toute l'année, sauf mardi","url": "https://musee-archeologienationale.fr/en/prices","note": "Collections permanentes gratuites pour tous. RER A terminus, le château est face à la gare.","lat": 48.8983,"lon": 2.094},
+{"nom": "Musée Carnavalet – Histoire de Paris","cat": "musee","adr": "23 rue de Sévigné, 75003 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.carnavalet.paris.fr/informations-pratiques","note": "Collections permanentes gratuites pour tous, sans réservation. Le plus grand musée d'histoire de Paris.","lat": 48.85728,"lon": 2.3627},
+{"nom": "Petit Palais – Beaux-Arts de la Ville de Paris","cat": "musee","adr": "Avenue Winston-Churchill, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.petitpalais.paris.fr/preparer-sa-visite/informations-pratiques","note": "Collections permanentes gratuites ; jardin intérieur et café en accès libre.","lat": 48.86612,"lon": 2.31474},
+{"nom": "Musée d'Art moderne de Paris (MAM)","cat": "musee","adr": "11 avenue du Président Wilson, 75116 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h, nocturne jeudi","url": "https://www.mam.paris.fr/fr/informations-pratiques","note": "Collections permanentes gratuites ; gratuité des expos pour les étudiants en art, histoire de l'art, archéologie et mode.","lat": 48.86446,"lon": 2.29723},
+{"nom": "Maison de Balzac","cat": "musee","adr": "47 rue Raynouard, 75016 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.maisondebalzac.paris.fr/informations-pratiques","note": "Entrée gratuite pour tous. Jardin avec vue sur la Tour Eiffel ; travaux de façade jusqu'en nov. 2026.","lat": 48.85543,"lon": 2.28107},
+{"nom": "Maison de Victor Hugo","cat": "musee","adr": "6 place des Vosges, 75004 Paris","tarif": "gratuit hors expo","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.maisonsvictorhugo.paris.fr/paris/informations-pratiques","note": "Normalement gratuit ; entrée payante du 11 juin au 22 nov. 2026 pendant l'expo « Hugo et l'architecture ».","lat": 48.85511,"lon": 2.36688},
+{"nom": "Musée Bourdelle","cat": "musee","adr": "18 rue Antoine Bourdelle, 75015 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.bourdelle.paris.fr/en/visit/prepare-your-visit/useful-informations","note": "Collections gratuites. Ateliers et jardin de sculptures : un des plus beaux spots gratuits du 15e.","lat": 48.8436,"lon": 2.31877},
+{"nom": "Musée Zadkine","cat": "musee","adr": "100 bis rue d'Assas, 75006 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.zadkine.paris.fr/informations-pratiques","note": "Atelier-maison et jardin de sculptures cachés derrière Montparnasse.","lat": 48.84257,"lon": 2.33232},
+{"nom": "Musée Cernuschi – arts de l'Asie","cat": "musee","adr": "7 avenue Vélasquez, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.cernuschi.paris.fr/fr/preparer-sa-visite/acces-au-musee","note": "Collections permanentes gratuites, en bordure du parc Monceau.","lat": 48.87944,"lon": 2.3117},
+{"nom": "Musée de la Vie romantique","cat": "musee","adr": "16 rue Chaptal, 75009 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "mar-dim 10h-18h","url": "https://www.museevieromantique.paris.fr/votre-visite/informations-pratiques","note": "Collections gratuites. Jardin et salon de thé dans la cour, quartier de la Nouvelle Athènes.","lat": 48.88054,"lon": 2.33288},
+{"nom": "Musée de Minéralogie – MINES Paris PSL","cat": "musee","adr": "60 boulevard Saint-Michel, 75006 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "mar, jeu, ven et sam ; fermé dim-lun","url": "https://www.musee.minesparis.psl.eu/Accueil/Infos/","note": "Gratuit pour les -26 ans. 100 000 minéraux dans une galerie du XIXe, face au Luxembourg.","lat": 48.84639,"lon": 2.34043},
+{"nom": "Musée d'Histoire de la Médecine","cat": "musee","adr": "12 rue de l'École de Médecine, 75006 Paris","tarif": "2,50 € (gratuit étudiants U. Paris Cité)","gratuit": false,"public": "étudiant","quand": "lun-sam sauf jeudi, 14h-17h30 ; fermé en août","url": "https://u-paris.fr/musee-de-lhistoire-de-la-medecine/","note": "L'un des musées les moins chers de Paris. Instruments chirurgicaux anciens dans une salle de 1905.","lat": 48.85073,"lon": 2.34031},
+{"nom": "Panthéon","cat": "monument","adr": "Place du Panthéon, 75005 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.paris-pantheon.fr/","note": "CMN : gratuit -26 ans UE/EEE sur pièce d'identité. Panorama de la coupole fermé pour travaux.","lat": 48.84619,"lon": 2.3461},
+{"nom": "Sainte-Chapelle","cat": "monument","adr": "10 boulevard du Palais, 75001 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.sainte-chapelle.fr/","note": "CMN, gratuit -26 ans UE. Contrôle de sécurité du Palais de justice : prévoir de la file.","lat": 48.85546,"lon": 2.345},
+{"nom": "Conciergerie","cat": "monument","adr": "2 boulevard du Palais, 75001 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.paris-conciergerie.fr/","note": "CMN. Palais royal médiéval et prison de Marie-Antoinette.","lat": 48.85607,"lon": 2.3456},
+{"nom": "Arc de Triomphe","cat": "monument","adr": "Place Charles de Gaulle, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.paris-arc-de-triomphe.fr/","note": "CMN, terrasse panoramique gratuite -26 ans UE. Accès par le passage souterrain.","lat": 48.8738,"lon": 2.295},
+{"nom": "Tours de Notre-Dame de Paris","cat": "monument","adr": "Parvis Notre-Dame, 75004 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année, créneau à réserver","url": "https://www.tours-notre-dame-de-paris.fr/","note": "Rouvertes après restauration, 424 marches. Billet gratuit -26 ans à réserver tôt, les créneaux partent vite.","lat": 48.853,"lon": 2.3499},
+{"nom": "Basilique cathédrale de Saint-Denis","cat": "monument","adr": "1 rue de la Légion d'Honneur, 93200 Saint-Denis","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.saint-denis-basilique.fr/visiter/informations-pratiques","note": "CMN, gratuit 18-25 ans UE. Nécropole des rois de France. Métro 13 Basilique de Saint-Denis.","lat": 48.93546,"lon": 2.35983},
+{"nom": "Chapelle expiatoire","cat": "monument","adr": "29 rue Pasquier, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "jours d'ouverture réduits, vérifier avant","url": "https://www.chapelle-expiatoire-paris.fr/","note": "CMN. Monument néoclassique sur l'ancien cimetière de la Madeleine. Métro Saint-Augustin.","lat": 48.87355,"lon": 2.32405},
+{"nom": "Hôtel de la Marine","cat": "monument","adr": "2 place de la Concorde, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "-26","quand": "toute l'année","url": "https://www.hotel-de-la-marine.paris/visiter/informations-pratiques","note": "CMN, gratuit 18-25 ans UE sur les parcours du monument ; la collection Al Thani reste payante.","lat": 48.86668,"lon": 2.3229},
+{"nom": "Château de Champs-sur-Marne","cat": "monument","adr": "31 rue de Paris, 77420 Champs-sur-Marne","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le mardi","url": "https://www.chateau-champs-sur-marne.fr/visiter/informations-pratiques","note": "RER A gare de Noisiel puis 20 min à pied. Parc classé Jardin remarquable en accès libre.","lat": 48.8524,"lon": 2.6049},
+{"nom": "Château de Maisons","cat": "monument","adr": "2 avenue Carnot, 78600 Maisons-Laffitte","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le mardi","url": "https://www.chateau-maisons.fr/visiter/informations-pratiques","note": "RER A / Transilien L gare de Maisons-Laffitte, quelques minutes à pied. Chef-d'œuvre de Mansart.","lat": 48.9475,"lon": 2.1532},
+{"nom": "Villa Savoye (Le Corbusier)","cat": "monument","adr": "82 rue de Villiers, 78300 Poissy","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le lundi","url": "https://www.villa-savoye.fr/visiter/informations-pratiques","note": "RER A gare de Poissy puis bus 6503 arrêt Villa Savoye. Manifeste du mouvement moderne, UNESCO.","lat": 48.9247,"lon": 2.0276},
+{"nom": "Château de Rambouillet","cat": "monument","adr": "Château, 78120 Rambouillet","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le mardi","url": "https://www.chateau-rambouillet.fr/visiter/informations-pratiques","note": "Transilien N depuis Montparnasse (1h15, inclus dans Navigo) puis 15 min à pied. Réservation obligatoire même gratuite.","lat": 48.6447,"lon": 1.8187},
+{"nom": "Château de Versailles","cat": "monument","adr": "Place d'Armes, 78000 Versailles","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le lundi","url": "https://en.chateauversailles.fr/plan-your-visit/conditions-free-admission","note": "Gratuit -26 ans résidents UE : château, Trianon et expos. Créneau à réserver, entrée A. RER C Versailles Château.","lat": 48.8048,"lon": 2.1204},
+{"nom": "Château de Fontainebleau","cat": "monument","adr": "Place Charles de Gaulle, 77300 Fontainebleau","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le mardi","url": "https://www.chateaudefontainebleau.fr/preparez-votre-visite/horaires-et-tarifs/","note": "Gratuit 18-25 ans résidant dans l'UE. Transilien R depuis Gare de Lyon puis bus 1. Parc et jardins libres.","lat": 48.4021,"lon": 2.6998},
+{"nom": "Château de Malmaison","cat": "monument","adr": "Avenue du Château de Malmaison, 92500 Rueil-Malmaison","tarif": "gratuit","gratuit": true,"public": "-26","quand": "fermé le mardi","url": "https://musees-nationaux-malmaison.fr/chateau-malmaison/en/practical-information","note": "Résidence de Joséphine et Bonaparte. RER A La Défense puis bus 258 arrêt Le Château.","lat": 48.8706,"lon": 2.1669},
+{"nom": "Abbaye de Royaumont","cat": "monument","adr": "3 Jardin de l'abbaye, 95270 Asnières-sur-Oise","tarif": "7,50 €","gratuit": false,"public": "-26/étudiant","quand": "toute l'année","url": "https://www.royaumont.com/informations-pratiques/billets-et-tarifs/","note": "Plus grande abbaye cistercienne d'IDF. Transilien H jusqu'à Luzarches puis navette le week-end.","lat": 49.1442,"lon": 2.383},
+{"nom": "Cinémathèque française – tarif jeune","cat": "cinema","adr": "51 rue de Bercy, 75012 Paris","tarif": "4 € (-26 ans)","gratuit": false,"public": "-26/étudiant","quand": "toute l'année, toutes séances","url": "https://www.cinematheque.fr/moins-de-26-ans-et-etudiants.html","note": "Le meilleur rapport qualité/prix de Paris. Libre Pass Jeunes 10 €/mois = cinéma illimité + musée + biblio.","lat": 48.8369,"lon": 2.3824},
+{"nom": "Cinémathèque – 1 film à 1 € par semaine","cat": "cinema","adr": "51 rue de Bercy, 75012 Paris","tarif": "1 €","gratuit": false,"public": "-26","quand": "1 film par semaine, toute l'année","url": "https://www.cinematheque.fr/cycle/films-a-1euro-912.html","note": "Un film de la programmation à 1 € pour les -26 ans chaque semaine, places limitées.","lat": 48.837,"lon": 2.3826},
+{"nom": "Forum des images","cat": "cinema","adr": "2 rue du Cinéma, Forum des Halles, 75001 Paris","tarif": "6 € (-30 ans) ; 4 € avec la carte Liberté","gratuit": false,"public": "-26/étudiant","quand": "toute l'année","url": "https://www.forumdesimages.fr/tarifs-et-abonnements","note": "Carte Forum Liberté à 6 €/an fait tomber toutes les séances à 4 € : rentabilisée en une séance.","lat": 48.86233,"lon": 2.346},
+{"nom": "La Filmothèque du Quartier Latin","cat": "cinema","adr": "9 rue Champollion, 75005 Paris","tarif": "5 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année, toutes séances","url": "https://lafilmotheque.fr/informations-pratiques/","note": "Un des tarifs jeunes les plus bas de Paris pour du cinéma de patrimoine.","lat": 48.84939,"lon": 2.34348},
+{"nom": "Le Grand Action","cat": "cinema","adr": "5 rue des Écoles, 75005 Paris","tarif": "7,50 € (-26 ans) ; 6 € avant 13h","gratuit": false,"public": "-26","quand": "séances avant 13h à 6 € pour tous","url": "https://www.legrandaction.com/tarifs/","note": "Salle de patrimoine et de rétrospectives du Quartier latin.","lat": 48.84832,"lon": 2.35178},
+{"nom": "Cinéma La Clef","cat": "cinema","adr": "34 rue Daubenton, 75005 Paris","tarif": "prix libre (~4 €)","gratuit": false,"public": "tous","quand": "toutes les séances","url": "https://laclefrevival.org/le-projet/","note": "Cinéma associatif rouvert en 2026 : chacun fixe le prix de sa place selon ses moyens.","lat": 48.84043,"lon": 2.35095},
+{"nom": "Christine Cinéma Club","cat": "cinema","adr": "4 rue Christine, 75006 Paris","tarif": "6 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année, toutes séances","url": "https://pariscinemaclub.com/tarifs/","note": "Films cultes, VO et classiques restaurés. Carte 10 entrées 60 €.","lat": 48.8548,"lon": 2.3397},
+{"nom": "Écoles Cinéma Club","cat": "cinema","adr": "23 rue des Écoles, 75005 Paris","tarif": "6 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année, toutes séances","url": "https://pariscinemaclub.com/tarifs/","note": "Seconde salle du Paris Cinéma Club, même tarif jeune.","lat": 48.8492,"lon": 2.347},
+{"nom": "Cinéma du Panthéon","cat": "cinema","adr": "13 rue Victor Cousin, 75005 Paris","tarif": "7,50 € (étudiant)","gratuit": false,"public": "étudiant","quand": "du lundi au vendredi","url": "https://www.cinemadupantheon.fr/tarifs/","note": "La plus ancienne salle de Paris encore en activité (1907), à deux pas de la Sorbonne.","lat": 48.84854,"lon": 2.34248},
+{"nom": "Luminor Hôtel de Ville","cat": "cinema","adr": "20 rue du Temple, 75004 Paris","tarif": "7,50 € (-26 ans) ; 7 € avant 12h15","gratuit": false,"public": "-26","quand": "toute l'année","url": "https://www.luminor-hoteldeville.com/tarifs/","note": "Art & Essai trois salles au cœur du Marais. Pass Culture à 5 €.","lat": 48.85802,"lon": 2.35395},
+{"nom": "Le Louxor – Palais du cinéma","cat": "cinema","adr": "170 boulevard de Magenta, 75010 Paris","tarif": "6 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année","url": "https://www.cinemalouxor.fr/tarifs/","note": "Salle néo-égyptienne de 1921 classée MH : le plus beau décor par euro dépensé de la capitale.","lat": 48.88327,"lon": 2.35435},
+{"nom": "Fondation Jérôme Seydoux-Pathé","cat": "cinema","adr": "73 avenue des Gobelins, 75013 Paris","tarif": "5,50 € (-26 ans / étudiant)","gratuit": false,"public": "-26/étudiant","quand": "toute l'année","url": "https://www.fondation-jeromeseydoux-pathe.com/cms/infos-pratique","note": "Bâtiment de Renzo Piano, cinéma muet accompagné au piano en direct. Billet couplé avec les expos.","lat": 48.83236,"lon": 2.35262},
+{"nom": "Le Méliès (Montreuil)","cat": "cinema","adr": "12 place Jean Jaurès, 93100 Montreuil","tarif": "4 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année, toutes séances","url": "http://meliesmontreuil.fr/FR/41/tarifs-cinema-le-melies-montreuil.html","note": "Plus grand cinéma public de France, 6 salles. Carte 10 entrées jeune 38 €, valable sur tout Est Ensemble.","lat": 48.86215,"lon": 2.44118},
+{"nom": "Ciné 104 (Pantin)","cat": "cinema","adr": "104 avenue Jean Lolive, 93500 Pantin","tarif": "4 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année","url": "https://cine104.fr/FR/41/tarifs-cinema-cine-104-pantin.html","note": "Cinéma municipal Art & Essai, ciné-clubs réguliers. Métro 5 Église de Pantin.","lat": 48.89377,"lon": 2.41184},
+{"nom": "Le Trianon (Romainville)","cat": "cinema","adr": "Place Carnot, 93230 Romainville","tarif": "4 € (-26 ans)","gratuit": false,"public": "-26","quand": "toute l'année","url": "https://cinematrianon.fr/le-trianon/tarifs","note": "Salle à l'italienne de 1935 restaurée, classée Art & Essai.","lat": 48.8853,"lon": 2.437},
+{"nom": "L'Écran (Saint-Denis)","cat": "cinema","adr": "14 passage de l'Aqueduc, 93200 Saint-Denis","tarif": "4 € (-26 ans et étudiants)","gratuit": false,"public": "-26/étudiant","quand": "toute l'année, toutes séances","url": "https://lecranstdenis.fr/FR/41/tarifs-cinema-l-ecran-de-saint-denis-saint-denis.html","note": "Forte programmation documentaire et rencontres. Métro 13 Basilique de Saint-Denis.","lat": 48.937,"lon": 2.357},
+{"nom": "Cinéma Jacques Tati (Tremblay-en-France)","cat": "cinema","adr": "29 bis avenue du Général de Gaulle, 93290 Tremblay-en-France","tarif": "5,50 € (16-25 ans) ; 4,50 € certaines séances","gratuit": false,"public": "-26/étudiant","quand": "toute l'année","url": "https://www.cinemajacquestati.fr/500/infos-pratiques/les-tarifs.htm","note": "Cinéma municipal Art & Essai. RER B Vert-Galant puis bus.","lat": 48.948,"lon": 2.567},
+{"nom": "Opéra Bastille – avant-premières jeunes","cat": "spectacle","adr": "Place de la Bastille, 75012 Paris","tarif": "10 €","gratuit": false,"public": "-26","quand": "11 avant-premières sur la saison 26/27","url": "https://www.operadeparis.fr/billetterie/offres/avant-premieres-jeunes","note": "Réservé aux -28 ans, 2 places max, justificatif d'âge avec photo à l'entrée.","lat": 48.85207,"lon": 2.3701},
+{"nom": "Palais Garnier – avant-premières jeunes","cat": "spectacle","adr": "Place de l'Opéra, 75009 Paris","tarif": "10 €","gratuit": false,"public": "-26","quand": "sélection d'avant-premières sur la saison","url": "https://www.operadeparis.fr/billetterie/offres/avant-premieres-jeunes","note": "-28 ans. L'Opéra vend aussi des places catégorie 6 à 10 € au guichet 2 h avant, pour tous.","lat": 48.87198,"lon": 2.33174},
+{"nom": "Comédie-Française – Pass Jeunes","cat": "spectacle","adr": "Place Colette, 75001 Paris","tarif": "Pass 20 € puis places dès 12 €","gratuit": false,"public": "-26","quand": "pass en vente le 8 septembre 2026, quantité limitée","url": "https://www.operadeparis.fr/billetterie/offres/pass-jeunes","note": "Pass commun Opéra de Paris / Comédie-Française, -28 ans. Vieux-Colombier 17 €, Studio-Théâtre 15 €.","lat": 48.86325,"lon": 2.33624},
+{"nom": "Odéon – Théâtre de l'Europe","cat": "spectacle","adr": "Place de l'Odéon, 75006 Paris","tarif": "6 € (places debout, dernière minute)","gratuit": false,"public": "-26","quand": "au guichet 1 h avant le spectacle","url": "https://www.theatre-odeon.eu/fr/billetterie","note": "Tarif -28 ans de 7 à 21 € sinon ; abonnement -28 ans dès 13 €/spectacle.","lat": 48.84945,"lon": 2.33869},
+{"nom": "La Colline – théâtre national","cat": "spectacle","adr": "15 rue Malte-Brun, 75020 Paris","tarif": "8 à 15 €","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://billetterie.colline.fr/fr/tarifs2","note": "-30 ans et étudiants (plein tarif 33 €). Métro Gambetta.","lat": 48.8668,"lon": 2.3988},
+{"nom": "Théâtre de la Bastille","cat": "spectacle","adr": "76 rue de la Roquette, 75011 Paris","tarif": "8 € (dernière minute) ; 12 € étudiant","gratuit": false,"public": "étudiant","quand": "« L'Heure bleue » : 1 h avant la représentation","url": "https://www.theatre-bastille.com/infos-pratiques/tarifs-abonnements","note": "Places de dernière minute à 8 € sur présentation de la carte étudiante.","lat": 48.8567,"lon": 2.375},
+{"nom": "Théâtre du Rond-Point","cat": "spectacle","adr": "2 bis avenue Franklin D. Roosevelt, 75008 Paris","tarif": "12 €","gratuit": false,"public": "-26/étudiant","quand": "toute la saison, les trois salles","url": "https://www.theatredurondpoint.fr/infos-pratiques/tarifs-et-offres","note": "Tarif -30 ans / étudiants (plein tarif 32-40 €). Abonnement dès 10 €/spectacle.","lat": 48.86633,"lon": 2.31245},
+{"nom": "Théâtre 13 – Glacière","cat": "spectacle","adr": "103 A boulevard Auguste-Blanqui, 75013 Paris","tarif": "10 € (5 € boursiers)","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://theatre13.com/infos-pratiques/","note": "Tarif réduit 5-25 ans, étudiants et demandeurs d'emploi (plein tarif 25 €).","lat": 48.8308,"lon": 2.3435},
+{"nom": "Théâtre Paris-Villette","cat": "spectacle","adr": "211 avenue Jean-Jaurès, 75019 Paris","tarif": "7 € avec le Pass Premières Jeunes","gratuit": false,"public": "-26","quand": "toute la saison","url": "https://www.theatre-paris-villette.fr/infos-pratiques/","note": "Pass Premières Jeunes gratuit pour les 18-25 ans : les premières à 7 €.","lat": 48.891,"lon": 2.389},
+{"nom": "La Villette","cat": "spectacle","adr": "211 avenue Jean-Jaurès, 75019 Paris","tarif": "10 €","gratuit": false,"public": "-26","quand": "toute la saison, toute la programmation","url": "https://www.lavillette.com/etudiants-moins-de-28-ans/","note": "Tarif unique 10 € pour tous les -28 ans : théâtre, danse, cirque, musique.","lat": 48.89364,"lon": 2.39023},
+{"nom": "Théâtre du Châtelet","cat": "spectacle","adr": "1 place du Châtelet, 75001 Paris","tarif": "10 €","gratuit": false,"public": "-26","quand": "sélection de spectacles ; dernière minute 15 min avant","url": "https://www.chatelet.com/en/member-tickets/","note": "Réservé aux -30 ans, pièce d'identité exigée. Places de dernière minute en catégories 1 à 4.","lat": 48.85769,"lon": 2.34645},
+{"nom": "La Scala Paris","cat": "spectacle","adr": "13 boulevard de Strasbourg, 75010 Paris","tarif": "15 €","gratuit": false,"public": "-26","quand": "sélection de spectacles, 2e catégorie","url": "https://lascala-paris.fr/billetterie/tarifs-jeunes/","note": "Réservé aux -26 ans. Théâtre, danse, cirque, musique.","lat": 48.8698,"lon": 2.3548},
+{"nom": "MC93 – Maison de la Culture de Seine-Saint-Denis","cat": "spectacle","adr": "9 boulevard Lénine, 93000 Bobigny","tarif": "12 €","gratuit": false,"public": "-26","quand": "toute la saison","url": "https://www.mc93.com/billetterie","note": "Tarif -30 ans (plein tarif 25-30 €). Métro 5 Bobigny – Pablo Picasso.","lat": 48.906,"lon": 2.447},
+{"nom": "Théâtre Gérard Philipe – CDN Saint-Denis","cat": "spectacle","adr": "59 boulevard Jules-Guesde, 93200 Saint-Denis","tarif": "12 € ; 8 € (-26 ans) avec la carte TGP","gratuit": false,"public": "-26/étudiant","quand": "toute la saison 26/27","url": "https://tgp.theatregerardphilipe.com/tarifs-reservations/","note": "6 € pour les étudiants avec la carte. Métro 13 Saint-Denis – Porte de Paris.","lat": 48.933,"lon": 2.351},
+{"nom": "T2G – Théâtre de Gennevilliers","cat": "spectacle","adr": "41 avenue des Grésillons, 92230 Gennevilliers","tarif": "12 € ; carnet 5 places 30 €","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://theatredegennevilliers.fr/infos-pratiques","note": "Soit 6 € la place avec le carnet -30 ans. Métro 13 Gabriel Péri.","lat": 48.927,"lon": 2.295},
+{"nom": "Théâtre Public de Montreuil – CDN","cat": "spectacle","adr": "10 place Jean-Jaurès, 93100 Montreuil","tarif": "12 € étudiant ; Pass Jeune 27 € puis 9 €","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://theatrepublicmontreuil.com/fr/tarifs-et-abonnements","note": "Le Pass Jeune s'active dès 3 spectacles. Métro 9 Mairie de Montreuil.","lat": 48.862,"lon": 2.442},
+{"nom": "Théâtre Nanterre-Amandiers – CDN","cat": "spectacle","adr": "7 avenue Pablo Picasso, 92000 Nanterre","tarif": "Pass Jeune 10 € puis 5 € la place","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://nanterre-amandiers.com/actualites/les-pass-des-amandiers","note": "5 € la place, un des meilleurs tarifs d'IDF. RER A Nanterre-Préfecture puis navette.","lat": 48.896,"lon": 2.214},
+{"nom": "Points Communs – Scène nationale de Cergy-Pontoise","cat": "spectacle","adr": "1 place du Théâtre, 95000 Cergy","tarif": "8 à 10 € (étudiants)","gratuit": false,"public": "-26/étudiant","quand": "toute la saison","url": "https://points-communs.com/la-billetterie-et-les-abonnements/les-tarifs","note": "RER A Cergy-Préfecture. Seconde salle : Théâtre des Louvrais à Pontoise.","lat": 49.036,"lon": 2.061},
+{"nom": "Philharmonie de Paris / Cité de la musique","cat": "musique","adr": "221 avenue Jean-Jaurès, 75019 Paris","tarif": "11 € (-28 ans) ; 9 € dès 3 concerts","gratuit": false,"public": "-26","quand": "toute la saison","url": "https://philharmoniedeparis.fr/en/practical-info/subscriptions-and-discounts","note": "Se connecter à son compte avant l'achat pour voir le tarif. Musée de la musique gratuit -26 ans.","lat": 48.8894,"lon": 2.3939},
+{"nom": "Maison de la Radio et de la Musique – Pass Jeune","cat": "musique","adr": "116 avenue du Président-Kennedy, 75016 Paris","tarif": "Pass Jeune 30 € pour 4 concerts, soit 7,50 €","gratuit": false,"public": "-26/étudiant","quand": "plus de 200 concerts éligibles sur la saison","url": "https://www.maisondelaradioetdelamusique.fr/moins-de-30-ans","note": "16-30 ans. Orchestre National de France, Philharmonique, Chœur, jazz, ciné-concerts.","lat": 48.852,"lon": 2.279},
+{"nom": "CNSMDP – concerts d'élèves gratuits","cat": "musique","adr": "209 avenue Jean-Jaurès, 75019 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "plus de 200 concerts par saison, quasi quotidiens","url": "https://www.conservatoiredeparis.fr/fr/informations-pratiques","note": "Toutes les manifestations du Conservatoire sont gratuites sauf mention contraire. Réservation conseillée.","lat": 48.8888,"lon": 2.3914},
+{"nom": "CRR de Paris – Ida Rubinstein","cat": "musique","adr": "14 rue de Madrid, 75008 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "saison publique continue, sans réservation","url": "https://www.paris.fr/evenements/l-agenda-et-les-evenements-du-crr-de-paris-ida-rubinstein-90297","note": "Concerts, auditions et master classes gratuits sur les 4 sites du conservatoire régional.","lat": 48.878,"lon": 2.322},
+{"nom": "Concerts de Saint-Merry","cat": "musique","adr": "76 rue de la Verrerie, 75004 Paris","tarif": "entrée libre","gratuit": true,"public": "tous","quand": "tous les dimanches à 16h, toute l'année","url": "https://www.paroissesaintmerry.fr/concerts","note": "Programmation classique de qualité en plein Châtelet. Arriver un peu en avance.","lat": 48.8586,"lon": 2.3511},
+{"nom": "Dimanches musicaux de La Madeleine","cat": "musique","adr": "Place de la Madeleine, 75008 Paris","tarif": "entrée libre","gratuit": true,"public": "tous","quand": "tous les dimanches à 16h","url": "https://concerts-lamadeleine.com/","note": "Récitals d'orgue et chœurs invités sur le Cavaillé-Coll de 1846, celui de Saint-Saëns et Fauré.","lat": 48.87,"lon": 2.3245},
+{"nom": "Auditions d'orgue de Saint-Eustache","cat": "musique","adr": "2 impasse Saint-Eustache, 75001 Paris","tarif": "entrée libre","gratuit": true,"public": "tous","quand": "chaque dimanche vers 17h, toute l'année","url": "https://www.saint-eustache.org/musique-a-st-eustache/","note": "Le plus grand orgue de France, 8000 tuyaux.","lat": 48.8634,"lon": 2.3449},
+{"nom": "Supersonic (Bastille)","cat": "musique","adr": "9 rue Biscornet, 75012 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "tous les soirs, jusqu'à 3 concerts par soir","url": "https://supersonic-club.fr/","note": "Rock, indie, punk, garage. La salle de concerts gratuits la plus régulière de Paris.","lat": 48.8508,"lon": 2.3699},
+{"nom": "Salle Cortot – Concerts de midi et demi","cat": "musique","adr": "78 rue Cardinet, 75017 Paris","tarif": "entrée libre","gratuit": true,"public": "tous","quand": "env. 70 concerts par an, en semaine à 12h30","url": "https://www.ecolenormalecortot.com/insertion-professionnelle/jouer-a-la-salle-cortot/","note": "Salle mythique à l'acoustique réputée, élèves de l'École normale de musique.","lat": 48.884,"lon": 2.312},
+{"nom": "La Seine Musicale – tarif jeune","cat": "musique","adr": "Île Seguin, 92100 Boulogne-Billancourt","tarif": "10 à 15 € (-28 ans)","gratuit": false,"public": "-26","quand": "saison de septembre à juillet","url": "https://www.laseinemusicale.com/tarifs-jeune/","note": "Métro 9 Pont de Sèvres. Tarif de dernière minute 15 € vendu 45 min avant certains concerts.","lat": 48.8247,"lon": 2.2298},
+{"nom": "Théâtre des Champs-Élysées – Carte Jeunes","cat": "musique","adr": "15 avenue Montaigne, 75008 Paris","tarif": "Carte 15 € puis places à 10, 15 ou 20 €","gratuit": false,"public": "-26","quand": "toute la saison + avant-premières -30 ans","url": "https://www.theatrechampselysees.fr/jeunes-30-ans","note": "16-30 ans. Justificatif à envoyer par mail, puis réservation via le Portail Jeunes.","lat": 48.8656,"lon": 2.3034},
+{"nom": "Auditorium du Louvre – tarif jeune","cat": "musique","adr": "Musée du Louvre, rue de Rivoli, 75001 Paris","tarif": "5 à 15 € (-26 ans EEE)","gratuit": false,"public": "-26","quand": "saison musicale d'octobre à juin","url": "https://contact.louvre.fr/hc/fr/articles/16294577945117","note": "La plupart des concerts en catégories C/D/E à 5-10 €. 30 places de dernière minute 30 min avant.","lat": 48.861,"lon": 2.335},
+{"nom": "Piscine Georges-Vallerey (bassin olympique 50 m à toit ouvrant)","cat": "piscine","adr": "148 avenue Gambetta, 75020 Paris","tarif": "2 € (tarif réduit -26 ans domicilié à Paris) au lieu de 3,50 €","gratuit": false,"public": "-26","quand": "Toute l'année ; bassin découvert et horaires élargis l'été (11h-20h, jusqu'à 22h mardi et jeudi)","url": "https://www.paris.fr/lieux/piscine-georges-vallerey-2949","note": "Seul bassin olympique de 50 m de Paris avec toit ouvrant et fond mobile, héritage des JO de 1924. Métro Porte des Lilas (3bis, 11) ou Saint-Fargeau (3bis). Carte 10 entrées à 16 € au tarif réduit.","lat": 48.8729,"lon": 2.402},
+{"nom": "Piscine Joséphine-Baker (piscine flottante sur la Seine)","cat": "piscine","adr": "Quai François-Mauriac, port de la Gare, 75013 Paris","tarif": "2 € (tarif réduit -26 ans domicilié à Paris) ; tarification spécifique estivale 6,50 € le week-end de mi-mai à septembre","gratuit": false,"public": "-26","quand": "Toute l'année, toit ouvrant l'été avec solarium","url": "https://www.paris.fr/lieux/piscine-josephine-baker-2930","note": "Bassin 25 m posé sur la Seine, vue dégagée sur le fleuve. Métro Bibliothèque François-Mitterrand (14, RER C) ou Quai de la Gare (6). Billetterie en ligne billetterie-piscines.paris.fr.","lat": 48.836,"lon": 2.3765},
+{"nom": "Patinoire Pailleron","cat": "sport","adr": "32 rue Édouard-Pailleron, 75019 Paris","tarif": "3,70 € tarif réduit -26 ans (4,40 € plein tarif) en haute saison ; 3,20 € réduit (4,10 €) en basse saison","gratuit": false,"public": "-26","quand": "Séances publiques d'octobre à juin, fermée en juillet-août ; ouverte midi et soir en semaine, après-midi et soirée le week-end","url": "https://www.paris.fr/equipements/patinoire-pailleron-17935","note": "Patinoire municipale de 800 m² sous verrière, la seule patinoire parisienne principalement dédiée à la pratique de loisir. Tarif réduit pour les moins de 26 ans résidant à Paris. Métro Bolivar (7bis) ou Jaurès (2, 5, 7bis).","lat": 48.8801,"lon": 2.3789},
+{"nom": "Patinoire Sonja-Henie (Accor Arena)","cat": "sport","adr": "222 quai de Bercy, 75012 Paris","tarif": "Tarif réduit -26 ans et étudiants ; plein tarif 5,50 € en journée et 7,70 € en soirée (haute saison), 4,40 € / 6,60 € en basse saison ; patins 3,80 €","gratuit": false,"public": "-26/étudiant","quand": "Séances publiques toute l'année (1er septembre au 28 juin), tous les jours de 15h à 0h30 ; soirées DJ les vendredis et samedis","url": "https://www.accorarena.com/fr/le-faubourg/patinoire/tarifs","note": "Plus grande patinoire permanente de Paris (1 500 m² de glace), rénovée, sous l'Accor Arena. Tarif réduit explicitement ouvert aux jeunes de moins de 26 ans résidant à Paris et aux étudiants de moins de 26 ans. Carte 10 entrées à partir de 30 €. Métro Bercy (6, 14).","lat": 48.8384,"lon": 2.3785},
+{"nom": "BnF - Bibliothèque tous publics (site François-Mitterrand)","cat": "lieux","adr": "Quai François Mauriac, 75706 Paris Cedex 13","tarif": "Pass BnF lecture/culture 15 €/an (moins de 26 ans, ou étudiant de moins de 35 ans) au lieu de 24 € ; billet jour 5 € ; gratuit tous les jours de 17h à 20h ; pass gratuit pour les boursiers des Crous de Paris, Créteil et Versailles","gratuit": false,"public": "-26/étudiant","quand": "Lun 14h-20h, mar-sam 10h-20h, dim 13h-19h (bibliothèque tous publics, dès 14 ans)","url": "https://www.bnf.fr/fr/pass-lecture-culture","note": "Des milliers de places de travail, wifi, presse et 20 000 documents en libre accès sur l'esplanade du 13e. Métro 14 / RER C Bibliothèque François-Mitterrand, métro 6 Quai de la Gare. Le jardin-forêt central se regarde depuis les salles. Le pass donne aussi accès à la bibliothèque de l'Arsenal et au musée de Richelieu.","lat": 48.83372,"lon": 2.37595},
+{"nom": "BnF Richelieu - salle Ovale","cat": "lieux","adr": "5 rue Vivienne, 75002 Paris","tarif": "Gratuit, sans inscription ni pass","gratuit": true,"public": "tous","quand": "Mar 10h-20h, mer-dim 10h-18h ; fermé le lundi et les jours fériés","url": "https://www.bnf.fr/fr/richelieu","note": "La plus belle salle de travail gratuite de Paris : accès libre sans limite d'âge, 20 000 volumes en libre accès (histoire de l'art, patrimoine, bande dessinée, arts numériques) et postes numériques. Idéale pour réviser sans payer de pass.","lat": 48.86751,"lon": 2.33852},
+{"nom": "Bpi - Bibliothèque publique d'information (Bpi Lumière)","cat": "lieux","adr": "Immeuble Lumière, 40 avenue des Terroirs de France, 75012 Paris (2e étage)","tarif": "Entrée libre et gratuite, sans inscription","gratuit": true,"public": "tous","quand": "Tous les jours sauf mardi : lun et mer-ven 12h-22h, week-ends et jours fériés 11h-22h","url": "https://www.bpi.fr/informations-pratiques/venir-a-la-bpi/acces/","note": "Pendant les travaux du Centre Pompidou, la Bpi a déménagé dans l'immeuble Lumière (métro 14 Cour Saint-Émilion). Ouverte jusqu'à 22h, c'est le meilleur spot de révision tardive gratuit de Paris. Application Affluences pour vérifier la fréquentation avant de venir.","lat": 48.8328,"lon": 2.3886},
+{"nom": "Bibliothèque Sainte-Geneviève","cat": "lieux","adr": "10 place du Panthéon, 75005 Paris","tarif": "Inscription gratuite (carte blanche 14 mois pour les étudiants, 24 mois pour le grand public) ; 10 € seulement en cas de réédition de carte perdue","gratuit": true,"public": "tous","quand": "Lun-sam ; horaires d'été (salle générale) 13h-19h, horaires élargis en période universitaire","url": "https://www.bsg.univ-paris3.fr/iguana/www.main.cls?surl=inscription","note": "Ouverte à toute personne de plus de 18 ans ou titulaire du baccalauréat. Salle Labrouste classée, wifi, salles de groupe, impression/scan. Se présenter avec une pièce d'identité originale (la carte étudiante ne suffit pas).","lat": 48.84665,"lon": 2.34537},
+{"nom": "Bibliothèque Sainte-Barbe","cat": "lieux","adr": "4 rue Valette, 75005 Paris","tarif": "Accès et emprunt gratuits pour les étudiants (L1 à M2) d'un établissement public de Paris ou d'Île-de-France","gratuit": true,"public": "étudiant","quand": "Lun-sam, banque d'accueil 10h-19h30 ; réouverture après la fermeture d'été le 31 août 2026","url": "https://www.bsb.univ-paris3.fr/m-inscrire-emprunter/conditions-d-acces-et-inscription","note": "Bibliothèque interuniversitaire pensée pour le travail étudiant : wifi, ordinateurs en libre accès, prêt d'ordinateurs portables, salles de groupe, impression/photocopie/scan et cafétéria. Pré-inscription en ligne puis passage à l'accueil avec un justificatif de scolarité.","lat": 48.847,"lon": 2.3464},
+{"nom": "Bibliothèque Mazarine","cat": "lieux","adr": "23 quai de Conti, 75006 Paris","tarif": "Pass découverte 5 jours gratuit (non renouvelable dans l'année) ; carte annuelle 15 €","gratuit": true,"public": "tous","quand": "Lun-sam 10h-18h (horaires réduits l'été)","url": "https://www.bibliotheque-mazarine.fr/fr/pratique/sinscrire","note": "La plus ancienne bibliothèque publique de France, sous la coupole de l'Institut : salle de lecture XVIIe intacte, ouverte à tous sur présentation d'une pièce d'identité. Le pass gratuit de 5 jours permet de la tester avant de prendre la carte. Accord parental pour les moins de 16 ans.","lat": 48.85707,"lon": 2.33751},
+{"nom": "Médiathèque Françoise Sagan","cat": "lieux","adr": "8 rue Léon Schwartzenberg, 75010 Paris","tarif": "Entrée et consultation sur place gratuites ; inscription \"Lire\" (emprunt de livres) gratuite dans tout le réseau des bibliothèques de la Ville de Paris","gratuit": true,"public": "tous","quand": "Mar-ven 14h-19h, sam 10h-18h (horaires d'été 2026) ; fermée lun et dim","url": "https://www.paris.fr/lieux/mediatheque-francoise-sagan-8695","note": "4 300 m2 dans l'ancien carré Saint-Lazare avec jardin : plus de 100 000 documents, grandes tables de travail et wifi. L'inscription de base des bibliothèques de Paris est gratuite et ouverte à tous, parisiens ou non (formules CD/DVD payantes).","lat": 48.8754,"lon": 2.3554},
+{"nom": "Médiathèque Marguerite Yourcenar","cat": "lieux","adr": "41 rue d'Alleray, 75015 Paris","tarif": "Gratuit (accès et inscription \"Lire\")","gratuit": true,"public": "tous","quand": "Mar/jeu 13h-19h, mer/ven 10h-19h, sam 10h-18h, dim 13h-18h (à partir du 1er septembre 2026) ; fermée le lundi","url": "https://www.paris.fr/lieux/mediatheque-marguerite-yourcenar-6218","note": "3 000 m2 sur 4 niveaux avec jardin ouvert, plus de 140 000 documents dont l'un des plus gros fonds BD de Paris (environ 16 000 titres). Ouverte le dimanche après-midi hors été, ce qui est rare pour travailler.","lat": 48.8387,"lon": 2.3064},
+{"nom": "Bibliothèque des sciences et de l'industrie (Cité des sciences)","cat": "lieux","adr": "30 avenue Corentin-Cariou, 75019 Paris","tarif": "Gratuit ; pass BSI d'adhésion gratuit pour l'emprunt","gratuit": true,"public": "tous","quand": "Mar-dim 12h-18h45 (horaires élargis 9h15-19h45 en été) ; fermée le lundi","url": "https://www.cite-sciences.fr/fr/au-programme/lieux-ressources/bibliotheque","note": "Bibliothèque gratuite au cœur de la Cité des sciences (métro 7 Porte de la Villette) : sciences, santé, orientation et emploi, ressources numériques, grandes tables de travail. On y accède sans payer l'entrée des expositions.","lat": 48.8958,"lon": 2.38813},
+{"nom": "Carrefour numérique² - Fab Lab de la Cité des sciences","cat": "lieux","adr": "Cité des sciences et de l'industrie, niveau -1, 30 avenue Corentin-Cariou, 75019 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Mar-sam 12h-18h45 ; ouverture du Fab Lab mar, mer, ven, sam 14h30-17h30","url": "https://www.cite-sciences.fr/fr/au-programme/lieux-ressources/carrefour-numerique2","note": "Fab Lab gratuit et ouvert à tous dès 15 ans (plus jeunes accompagnés) : imprimantes 3D, découpe laser, électronique, studio son et vidéo, Living Lab. Réservation des machines via le portail carrefour-numerique.cite-sciences.fr. Un des rares ateliers de fabrication vraiment gratuits en IDF.","lat": 48.8958,"lon": 2.38813},
+{"nom": "QJ - Quartier Jeunes (le QG des jeunes à Paris)","cat": "lieux","adr": "4 place du Louvre, 75001 Paris","tarif": "Gratuit, sans rendez-vous","gratuit": true,"public": "-26","quand": "Accueil sans rendez-vous du mardi au samedi de 13h à 17h","url": "https://www.paris.fr/pages/les-points-information-jeunesse-et-le-cidj-15470","note": "Lieu ressource de la Ville de Paris pour les jeunes en plein centre (métro Louvre-Rivoli / Châtelet) : conseils gratuits sur l'orientation, les études, l'emploi, les stages, l'accès aux droits, la mobilité internationale, plus des espaces pour s'installer et travailler.","lat": 48.8598,"lon": 2.341},
+{"nom": "CIDJ - Centre d'information et de documentation jeunesse","cat": "lieux","adr": "4 place du Louvre, 75001 Paris (2e étage, Quartier Info)","tarif": "Accès libre et gratuit","gratuit": true,"public": "-26","quand": "Mar-ven 13h-18h, sam 13h-17h (juillet : mar-ven 13h-18h ; août : mar-ven 13h-17h)","url": "https://www.cidj.com/venir-au-cidj","note": "Installé au 2e étage du QJ : entretiens gratuits sans rendez-vous avec des conseillers Info Jeunes (orientation, jobs, logement, mobilité), documentation en libre consultation. Téléphone 01 88 40 41 80 du lundi au vendredi 10h-13h, tchat en ligne.","lat": 48.85975,"lon": 2.34125},
+{"nom": "Maison des initiatives étudiantes (MIE) Bastille","cat": "lieux","adr": "50 rue des Tournelles, 75003 Paris","tarif": "Gratuit pour les étudiants","gratuit": true,"public": "étudiant","quand": "Lun-ven 10h-22h, sam 10h-19h","url": "https://www.paris.fr/pages/maison-des-initiatives-etudiantes-2521","note": "Ouverte jusqu'à 22h : salles de réunion et de répétition, bureaux associatifs, ordinateurs en accès libre, wifi, banc de montage vidéo, centre de documentation et domiciliation d'association, le tout gratuit. Environ 270 associations étudiantes hébergées. Métro Chemin Vert ou Bastille.","lat": 48.857,"lon": 2.3676},
+{"nom": "Maison des initiatives étudiantes (MIE) Rennes","cat": "lieux","adr": "76 bis rue de Rennes, 75006 Paris","tarif": "Gratuit pour les étudiants","gratuit": true,"public": "étudiant","quand": "Mar-sam ; fermée dim, lun, en août et pendant les vacances de Noël","url": "https://www.paris.fr/pages/maison-des-initiatives-etudiantes-2521","note": "Seconde MIE parisienne, métro Saint-Sulpice : mêmes services gratuits (salles, bureaux associatifs, ordinateurs, accompagnement de projets, dispositifs de financement Kit Asso, Créart'UP, Start'in ESS). Contact maisonetudiante@paris.fr.","lat": 48.851,"lon": 2.3282},
+{"nom": "Resto U' Mabillon (Crous de Paris)","cat": "lieux","adr": "3 rue Mabillon, 75006 Paris","tarif": "1 € le repas complet pour tous les étudiants (paiement par compte Izly)","gratuit": false,"public": "étudiant","quand": "Ouvert le midi en semaine pendant l'année universitaire","url": "https://www.crous-paris.fr/se-restaurer/nos-sites-de-restauration/","note": "Resto U emblématique du Quartier latin, en plein Saint-Germain (métro 10 Mabillon). Le Crous de Paris affiche le repas à 1 € pour tous les étudiants, apprentis, alternants et volontaires en service civique. Le Mab' Café voisin est au 12 rue Clément.","lat": 48.853,"lon": 2.335},
+{"nom": "Resto U' Cité Internationale (Crous de Paris)","cat": "lieux","adr": "23 boulevard Jourdan, 75014 Paris","tarif": "1 € le repas complet pour tous les étudiants (compte Izly) ; brunch étudiant 7 € le samedi 10h-15h","gratuit": false,"public": "étudiant","quand": "Midi et soir en période universitaire ; brunch le samedi 10h-15h","url": "https://www.crous-paris.fr/se-restaurer/nos-sites-de-restauration/","note": "Le plus grand restaurant universitaire de Paris, dans le parc de la Cité internationale universitaire (RER B / T3a Cité Universitaire). Le parc de 34 hectares et ses maisons sont accessibles librement autour du repas.","lat": 48.81932,"lon": 2.33805},
+{"nom": "Parc des Buttes-Chaumont","cat": "pleinair","adr": "Place Armand-Carrel, 75019 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, 7h-22h (nocturnes jusqu'à 23h59 du 16/07 au 06/09)","url": "https://www.paris.fr/lieux/parc-des-buttes-chaumont-1757","note": "Métro Botzaris, Laumière ou Armand Carrel-Mairie du 19e. 25 ha de collines, falaises et lac : le meilleur spot pique-nique/coucher de soleil de l'est parisien. Attention, une partie du parc (temple de la Sibylle) est en travaux de restauration.","lat": 48.88089,"lon": 2.38222},
+{"nom": "Parc Montsouris","cat": "pleinair","adr": "2 rue Gazan, 75014 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, env. 7h-21h30 (nocturnes jusqu'à 23h59 du 16/07 au 06/09)","url": "https://www.paris.fr/lieux/parc-montsouris-1810","note": "RER B station Cité Universitaire, juste en face. Grandes pelouses accessibles, terrains de basket, tables de ping-pong, fontaines à eau et wifi. Le parc des étudiants de la Cité U.","lat": 48.82208,"lon": 2.33803},
+{"nom": "Parc André-Citroën","cat": "pleinair","adr": "2 rue Cauchy, 75015 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, env. 7h-21h30 (nocturnes jusqu'à 23h59 mi-juillet à début septembre)","url": "https://www.paris.fr/lieux/parc-andre-citroen-1791","note": "Métro Javel-André Citroën, Balard ou RER C Javel. Jets d'eau où l'on se rafraîchit l'été, grandes pelouses en bord de Seine, serres, jardins thématiques, ping-pong. Animaux interdits.","lat": 48.84148,"lon": 2.27391},
+{"nom": "Parc de Bercy","cat": "pleinair","adr": "Place Léonard-Bernstein, 75012 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, ouvert 24h/24 sur les grandes pelouses","url": "https://www.paris.fr/lieux/parc-de-bercy-grandes-pelouses-5","note": "Métro Bercy, Cour Saint-Émilion. Trois jardins (grandes pelouses, jardin romantique, jardin Yitzhak-Rabin), skatepark, ping-pong, vignes, toilettes et wifi. Voisin de Bercy Village et de la Cinémathèque.","lat": 48.83527,"lon": 2.38278},
+{"nom": "Parc de la Villette","cat": "pleinair","adr": "211 avenue Jean-Jaurès, 75019 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, accès libre 6h-1h (24h/24 l'été, sans clôture)","url": "https://www.paris.fr/lieux/parc-de-la-villette-1809","note": "Métro Porte de Pantin (5) ou Porte de la Villette (7), tram T3b. 55 ha : le plus grand parc de Paris intra-muros, prairies, folies rouges, jardins thématiques. Cinéma en plein air gratuit sur la Prairie du Triangle en juillet-août.","lat": 48.89364,"lon": 2.39023},
+{"nom": "Jardin des Plantes","cat": "pleinair","adr": "57 rue Cuvier, 75005 Paris","tarif": "Gratuit (entrée libre du jardin ; galeries et grandes serres payantes 7-16 €)","gratuit": true,"public": "tous","quand": "Toute l'année, tous les jours","url": "https://www.jardindesplantesdeparis.fr/fr/tarifs-horaires-acces","note": "Métro Jussieu, Censier-Daubenton, Gare d'Austerlitz. Le jardin botanique historique du Muséum : perspective de plates-bandes, roseraie, jardin alpin, école de botanique. Seules les serres, galeries et la ménagerie sont payantes.","lat": 48.84388,"lon": 2.3597},
+{"nom": "Parc Floral de Paris (bois de Vincennes)","cat": "pleinair","adr": "Route de la Pyramide, 75012 Paris","tarif": "2,80 € plein tarif, 1,60 € tarif réduit du 1er avril au 30 septembre ; gratuit du 1er octobre au 31 mars","gratuit": false,"public": "tous","quand": "Toute l'année, 9h30-20h l'été (9h30-17h/18h30 l'hiver)","url": "https://www.parcfloraldeparis.com/fr/horaires-et-tarifs","note": "Métro Château de Vincennes (ligne 1) puis 10 min à pied. 31 ha de jardins botaniques dans le bois de Vincennes, grandes pelouses, jeux en accès libre, pinède. Gratuit toute la saison froide.","lat": 48.83836,"lon": 2.44652},
+{"nom": "Baignade en Seine - Bras Marie","cat": "pleinair","adr": "Quai de l'Hôtel-de-Ville (entre pont Louis-Philippe et pont Marie), 75004 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Saison estivale : du 4 juillet au 30 août 2026, tous les jours 8h-18h","url": "https://www.paris.fr/evenements/paris-plages-baignade-dans-la-seine-au-bras-marie-88863","note": "Métro Pont Marie ou Hôtel de Ville. Bassin surveillé face à l'île Saint-Louis, 150 personnes max. Il faut savoir nager, mesurer au moins 1,20 m, être accompagné d'un adulte si moins de 14 ans. Bouée obligatoire fournie, prévoir 1 € pour les casiers. Ouvre selon la qualité de l'eau et le courant.","lat": 48.85361,"lon": 2.35569},
+{"nom": "Baignade en Seine - Bras de Grenelle","cat": "pleinair","adr": "4 port de Grenelle, face à l'île aux Cygnes, 75015 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Saison estivale : du 4 juillet au 30 août 2026, à partir de 10h (env. jusqu'à 17h30)","url": "https://www.paris.fr/evenements/paris-plages-baignade-dans-la-seine-au-bras-de-grenelle-88876","note": "Métro Bir-Hakeim (ligne 6) ou RER C Champ de Mars. Le plus verdoyant des trois bassins parisiens, vue sur la Tour Eiffel. 200 personnes max dont 150 dans l'eau. Savoir nager, 1,20 m minimum, moins de 14 ans accompagnés. Vestiaires, casiers, douches obligatoires avant baignade.","lat": 48.852,"lon": 2.2865},
+{"nom": "Baignade du bassin de la Villette","cat": "pleinair","adr": "40 quai de la Loire, 75019 Paris","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Saison estivale : baignades parisiennes du 6 juin au 20 septembre 2026 selon les sites","url": "https://www.paris.fr/paris-en-seine-2026","note": "Métro Laumière, Jaurès ou Riquet. Trois bassins surveillés installés directement dans le bassin, transats et pelouses autour, buvettes le long des quais. Le spot le plus facile d'accès de l'été parisien ; consulter la carte interactive de paris.fr avant de venir, les sites ferment selon la qualité de l'eau.","lat": 48.886,"lon": 2.372},
+{"nom": "Domaine départemental de Sceaux","cat": "pleinair","adr": "Château de Sceaux, 8 avenue Claude-Perrault, 92330 Sceaux","tarif": "Gratuit (accès au parc)","gratuit": true,"public": "tous","quand": "Toute l'année, tous les jours, env. 7h-21h selon la saison (7h-20h30 en août)","url": "https://domaine-de-sceaux.hauts-de-seine.fr/preparez-votre-visite/informations-pratiques/horaires-et-acces","note": "RER B, gare de Sceaux ou Parc de Sceaux (bus 192 et 197, arrêt Parc de Sceaux). 180 ha de jardins à la française dessinés par Le Nôtre : grand canal, cascades, plaine des Quatre-Statues idéale pour pique-niquer. Le musée du château est payant mais gratuit en août.","lat": 48.775,"lon": 2.298},
+{"nom": "Parc du Sausset","cat": "pleinair","adr": "Avenue Raoul-Dufy, 93600 Aulnay-sous-Bois","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, accès piéton 24h/24 du 1er mai au 30 septembre","url": "https://parcsinfo.seinesaintdenis.fr/parc/parc-du-sausset/","note": "RER B, gare Villepinte - Parc du Sausset : l'entrée du parc est à la sortie de la gare. 200 ha classés Natura 2000 : étang, marais, prairies fleuries, forêt, bocage et même une vigne. Maison du parc et écogardes sur place.","lat": 48.957,"lon": 2.513},
+{"nom": "Parc Georges-Valbon (La Courneuve)","cat": "pleinair","adr": "55 avenue Waldeck-Rochet, 93120 La Courneuve","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, accès piéton 24h/24 du 1er mai au 30 septembre","url": "https://parcsinfo.seinesaintdenis.fr/parc/parc-georges-valbon/","note": "RER B La Courneuve - Aubervilliers puis bus 249, ou tramways T1 et T11. 410 ha : le plus grand parc d'Île-de-France classé Natura 2000, avec lac et pontons en bois, éco-pâturage, œuvres d'art et grandes aires de jeux.","lat": 48.934,"lon": 2.4},
+{"nom": "Arboretum du Domaine de la Vallée-aux-Loups","cat": "pleinair","adr": "102 rue de Chateaubriand, 92290 Châtenay-Malabry","tarif": "Gratuit (accès libre à l'arboretum, l'Île Verte et le parc boisé)","gratuit": true,"public": "tous","quand": "Toute l'année (horaires saisonniers, env. 10h-19h d'avril à septembre)","url": "https://vallee-aux-loups.hauts-de-seine.fr/infos-pratiques/horaires-tarifs/22-tarifs","note": "RER B terminus Robinson puis 20-25 min à pied par la rue Anatole-France, ou bus 194/294 arrêt Marc Sangnier, ou bus Vallée Sud 14 arrêt Arboretum. Collections d'arbres rares, bambouseraie, magnolias : une vallée entière gratuite. Seule la maison de Chateaubriand est payante (6 € / 4 € réduit).","lat": 48.774,"lon": 2.266},
+{"nom": "Plage de l'île de loisirs de Cergy-Pontoise","cat": "pleinair","adr": "Rue du Chemin Neuf, 95000 Neuville-sur-Oise","tarif": "7 € adulte, 5 € tarif réduit, gratuit -3 ans (carte 10 entrées 50 €) ; parc en accès libre","gratuit": false,"public": "tous","quand": "Saison estivale (plage surveillée, env. 12h-19h) ; parc ouvert toute l'année","url": "https://cergy-pontoise.iledeloisirs.fr/activites/plage/","note": "RER A gare de Cergy-Préfecture puis bus 1207 arrêt Île de loisirs (navette 1229 depuis Neuville-Université l'été). Plus de 5 000 m² de sable fin, seule zone de baignade surveillée du site. Se promener autour des étangs reste gratuit.","lat": 49.022,"lon": 2.055},
+{"nom": "Île de loisirs de Créteil","cat": "pleinair","adr": "9 rue Jean-Gabin, 94000 Créteil","tarif": "Gratuit (accès au site ; activités nautiques et piscine à vagues payantes)","gratuit": true,"public": "tous","quand": "Toute l'année ; horaires d'été tous les jours 10h30-19h","url": "https://creteil.iledeloisirs.fr/","note": "Métro ligne 8, station Créteil-Préfecture ou Pointe du Lac. 90 ha de verdure autour d'un lac de 40 ha, aires de pique-nique, sentiers, pêche. Le plus proche spot 'bord de l'eau' accessible en métro depuis Paris.","lat": 48.773,"lon": 2.455},
+{"nom": "Parc forestier de la Poudrerie","cat": "pleinair","adr": "Allée Eugène-Burlot, 93410 Vaujours","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, accès piéton 24h/24 du 1er mai au 30 septembre","url": "https://parcsinfo.seinesaintdenis.fr/parc/parc-forestier-de-la-poudrerie/","note": "RER B, gares Sevran-Livry ou Vert-Galant. 137 ha d'ancienne poudrerie devenue forêt : allées forestières, mares, prairies, biodiversité comparable aux grandes forêts franciliennes. Pavillon Maurouard pour la programmation nature.","lat": 48.933,"lon": 2.565},
+{"nom": "Forêt de Fontainebleau","cat": "pleinair","adr": "Carrefour de la Croix du Grand Maître, route Ronde, 77300 Fontainebleau","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, accès libre","url": "https://www.fontainebleau-tourisme.com/fr/decouvrir/nature-et-foret/la-foret-de-fontainebleau/","note": "Transilien ligne R depuis Paris Gare de Lyon : gare de Fontainebleau-Avon (~40 min) ou Bois-le-Roi, puis bus ou marche jusqu'aux massifs. 22 000 ha : randonnée, sentiers bleus Denecourt, blocs d'escalade (Apremont, Trois Pignons), sable et chaos rocheux. La sortie nature la plus dépaysante à moins d'une heure de Paris.","lat": 48.408,"lon": 2.665},
+{"nom": "Kiosque Culture (Kiosque Théâtre Madeleine) - demi-tarif le jour même","cat": "spectacle","adr": "15 place de la Madeleine, 75008 Paris","tarif": "Places de 1re catégorie à moitié prix + 3,50 € de commission par billet","gratuit": false,"public": "tous","quand": "Pour les représentations du jour même","url": "https://www.kiosqueculture.com/","note": "Guichet physique unique place de la Madeleine : on vient le jour même et on repart avec une place de catégorie 1 à -50 % dans les grands théâtres parisiens (Saint-Georges, Mathurins, Café de la Gare...). Pas de condition d'âge, donc complémentaire des tarifs jeunes. Vend aussi le Paris Museum Pass et des croisières.","lat": 48.87,"lon": 2.3241},
+{"nom": "CIDJ - Info Jeunes Paris (guichet d'information gratuit)","cat": "lieux","adr": "4 place du Louvre, 75001 Paris (2e étage, Quartier Info)","tarif": "Gratuit, sans rendez-vous","gratuit": true,"public": "-26/étudiant","quand": "Mardi au vendredi 13h-18h, samedi 13h-17h (juillet : mar-ven 13h-18h, fermé le samedi ; août : mar-ven 13h-17h)","url": "https://www.cidj.com/venir-au-cidj","note": "Accueil libre et gratuit par des conseillers Info Jeunes : études, orientation, jobs, logement, mobilité internationale, droits, mais aussi bons plans loisirs et volontariat. Métro Louvre-Rivoli ou Châtelet (sortie 13 rue des Lavandières). Tête de réseau Info Jeunes, avec des relais partout en Île-de-France. Téléphone 01 88 40 41 80 du lundi au vendredi 10h-13h et chat en ligne.","lat": 48.8594,"lon": 2.341},
+{"nom": "Baignade en Seine – Bercy","cat": "pleinair","adr": "Sous la passerelle Simone-de-Beauvoir, port de Bercy, 75012 Paris","tarif": "gratuit","gratuit": true,"public": "tous","quand": "4 juillet – 30 août 2026, 11h-21h","url": "https://www.paris.fr/pages/baignades-en-seine-tout-savoir-sur-l-accessibilite-35596","note": "Bassin surveillé et gratuit, sans réservation. Savoir nager, 1,20 m minimum.","lat": 48.837,"lon": 2.382}];
+
+const DISPOSITIFS = [{"nom": "Piscines municipales de Paris — tarif réduit moins de 26 ans","cat": "piscine","tarif": "2 € l'entrée (au lieu de 3,50 €) ; carte 10 entrées 16 € ; abonnement 3 mois 22 €","gratuit": false,"public": "-26","quand": "Toute l'année, aux horaires d'ouverture des 43 piscines municipales","url": "https://www.paris.fr/pages/tarifs-conditions-d-acces-et-accessibilite-6557","note": "Dispositif valable dans tout le réseau, sans adresse unique. Tarif réduit accordé aux moins de 26 ans domiciliés à Paris, sur présentation d'une pièce d'identité et d'un justificatif de domicile. Cinq piscines appliquent une tarification spécifique toute l'année (Suzanne-Berlioux, Pontoise, Roger-Le-Gall, Joséphine-Baker, Pailleron)."},
+{"nom": "« 1, 2, 3… Nagez ! » — apprentissage de la natation gratuit","cat": "piscine","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Sessions pendant les vacances scolaires : 10 séances d'une heure sur une ou deux semaines","url": "https://www.paris.fr/pages/savoir-nager-des-cours-de-natation-gratuits-pour-petits-et-grands-21542","note": "Dispositif multi-sites, sans adresse unique : piscines Hébert (18e), Thérèse-et-Jeanne-Brûlé (14e), Yvonne-Godard (20e) et Georges-Hermant (19e). Ouvert aux enfants de 4 à 11 ans et aux adultes de tout âge, encadré par des maîtres-nageurs. Inscription en ligne, priorité aux Parisiens n'ayant jamais participé."},
+{"nom": "Paris Tennis — courts municipaux au tarif jeune","cat": "sport","tarif": "7 €/heure en court découvert, 12 €/heure en court couvert (50 % de réduction)","gratuit": false,"public": "-26","quand": "Toute l'année, du lundi au samedi 8h-22h et le dimanche 8h-18h ; créneaux ouverts 7 jours à l'avance à 8h","url": "https://www.paris.fr/pages/les-tennis-2136","note": "Dispositif couvrant les 38 centres de tennis municipaux parisiens, donc une seule entrée sans adresse. Réduction de 50 % pour les réservataires de moins de 26 ans domiciliés à Paris, compte Paris Tennis (tennis.paris.fr) accessible dès 13 ans et lié au compte Mon Paris. Des murs d'entraînement sont en accès libre et gratuit dans plusieurs arrondissements, sans réservation."},
+{"nom": "Vélib' Métropole — abonnements V-Plus Jeune et V-Max Jeune","cat": "sport","tarif": "4,30 €/mois (V-Plus Jeune) ou 9,30 €/mois (V-Max Jeune), engagement 12 mois","gratuit": false,"public": "-26","quand": "Toute l'année, 24h/24, sur l'ensemble des stations de Paris et de la métropole","url": "https://www.velib-metropole.fr/offers","note": "Dispositif métropolitain sans adresse unique. Les formules « Jeune » sont réservées aux moins de 27 ans selon la grille tarifaire Vélib'. V-Plus Jeune : 30 min incluses par trajet en vélo mécanique ; V-Max Jeune : 60 min en mécanique et deux trajets électriques quotidiens à tarif réduit."},
+{"nom": "Paris Sport Vacances — stages sportifs gratuits","cat": "sport","tarif": "Gratuit en demi-journée (journée complète payante selon le quotient familial parisien)","gratuit": true,"public": "-26","quand": "Chaque période de vacances scolaires, du lundi au vendredi hors jours fériés, 9h-12h ou 14h-17h","url": "https://www.paris.fr/pages/pratique-encadree-pendant-les-vacances-2291","note": "Dispositif réparti sur les équipements sportifs de toute la ville, sans adresse unique. Pour les 7-17 ans : environ 1 300 stages et 30 000 places par an (basket, badminton, judo, athlétisme, cirque, formules Sport + Culture). Inscription via un compte Mon Paris sur psv.apps.paris.fr, environ 3 semaines avant chaque session."},
+{"nom": "Paris Sport Dimanches — cours collectifs gratuits en plein air","cat": "pleinair","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Tous les dimanches à 10h, séances d'une heure, toute l'année (programme d'été et programme du reste de l'année)","url": "https://www.paris.fr/pages/des-cours-collectifs-gratuits-avec-paris-sport-dimanche-6759","note": "Cours itinérants dans les parcs, jardins et places de Paris : pas d'adresse fixe, les lieux changent selon la saison. Fitness, renforcement musculaire, boxe fitness, boxe enfants, tennis de table. Gratuit et sans inscription préalable, dans la limite des places disponibles."},
+{"nom": "Paris Sport Proximité — créneaux encadrés gratuits","cat": "sport","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année hors vacances scolaires ; créneaux du midi, de l'après-midi et le week-end. Saison 2026-2027 à partir du 21 septembre 2026","url": "https://www.paris.fr/pages/paris-sport-proximite-18375","note": "Programme déployé dans les 20 arrondissements, donc une seule entrée sans adresse : badminton, remise en forme, sports collectifs et autres disciplines encadrées par des éducateurs de la Ville. Ouvert aux enfants, adolescents et adultes de tous niveaux, sans inscription préalable. Programme détaillé par arrondissement en PDF et sur Que Faire à Paris."},
+{"nom": "Paris Sportives — sport en extérieur gratuit pour les femmes","cat": "pleinair","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, séances en extérieur réparties dans les arrondissements","url": "https://www.paris.fr/pages/21-clubs-font-faire-du-sport-en-exterieur-aux-parisiennes-20946","note": "Dispositif itinérant sans adresse unique, porté par 42 associations et clubs partenaires. Réservé aux femmes et adolescentes, tous niveaux : danse, football, basket, tchoukball, apprentissage du vélo. Réservation conseillée mais non obligatoire. Héritage des JO de Paris 2024."},
+{"nom": "Pass'Sport — 70 € de réduction sur la licence en club","cat": "sport","tarif": "Réduction immédiate de 70 € sur le coût de l'inscription","gratuit": false,"public": "-26/étudiant","quand": "Chaque rentrée sportive, inscription entre le 1er septembre et le 31 décembre","url": "https://www.sports.gouv.fr/pass-sport","note": "Dispositif national reconduit chaque année, utilisable dans les milliers de clubs et associations partenaires d'Île-de-France : pas d'adresse unique. Bénéficiaires : étudiants boursiers de moins de 28 ans (bourse CROUS ou bourse régionale des formations sanitaires et sociales), jeunes de 14 à 17 ans bénéficiaires de l'ARS, 6-19 ans percevant l'AEEH et 16-30 ans percevant l'AAH."},
+{"nom": "Playgrounds de basket extérieurs en accès libre","cat": "pleinair","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, 7j/7, en accès libre","url": "https://www.paris.fr/pages/les-terrains-de-basket-exterieurs-les-plus-cools-de-paris-18802","note": "Réseau de terrains libres répartis dans tous les arrondissements, d'où une entrée unique sans adresse. Terrains les plus remarquables : Stalingrad sous le métro aérien (234 boulevard de la Villette, 19e), Léo-Lagrange (68 boulevard Poniatowski, 12e), Vincent-Auriol décoré par L'Atlas (61 boulevard Vincent-Auriol, 13e), Champ-de-Mars avec trois terrains 3x3 (avenue Pierre-Loti, 7e), quai de Jemmapes (142 quai de Jemmapes, 10e), square Léon (20 rue des Gardes, 18e). Carte interactive : cartographies.paris.fr/maps/83."},
+{"nom": "Équipements sportifs parisiens en accès libre (pistes d'athlétisme, terrains, agrès, parcours santé)","cat": "pleinair","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Pistes d'athlétisme ouvertes entre 12h30 et 14h en semaine, certains soirs et les week-ends ; terrains, agrès et parcours santé accessibles en permanence","url": "https://www.paris.fr/pages/pratiquer-un-sport-librement-2431","note": "Dispositif couvrant plus de 40 centres avec piste d'athlétisme ouverte au public, plus de 60 terrains de sport de quartier et plus de 20 aires d'agrès (elliptiques, rameurs, barres de traction) : pas d'adresse unique. Inclut les deux parcours santé : bois de Vincennes (2,4 km, 18 étapes) et bois de Boulogne (2,5 km, 19 étapes). Accès libre, sans inscription ni adhésion. Carte interactive : cartographies.paris.fr/maps/66."},
+{"nom": "Pass Culture - part individuelle (17 et 18 ans)","cat": "lieux","tarif": "50 € de crédit à 17 ans + 150 € à 18 ans (valables 3 ans)","gratuit": false,"public": "-26","quand": "Crédit ouvert le jour des 17 ans puis des 18 ans, utilisable jusqu'à 21 ans","url": "https://pass.culture.fr/le-pass-culture-cest-quoi/","note": "Réservé aux résidents en France. 50 € supplémentaires possibles à 18 ans (AEEH/AAH ou quotient familial sous plafond). Sert à payer cinéma, concerts, livres, musées, cours de pratique artistique via l'appli. Les crédits 15-16 ans n'existent plus : avant 17 ans, seules les offres gratuites de l'appli sont accessibles."},
+{"nom": "Forfait Imagine R Étudiant","cat": "lieux","tarif": "401,30 €/an (frais de dossier inclus), payable en 9 mensualités","gratuit": false,"public": "étudiant","quand": "12 mois, début au choix entre le 1er septembre et le 1er janvier ; souscription 2026-2027 jusqu'au 30 avril 2027","url": "https://www.iledefrance-mobilites.fr/titres-et-tarifs/detail/forfait-imagine-r-etudiant","note": "Moins de 26 ans au 1er septembre et inscrit dans l'enseignement supérieur. Trajets illimités toutes zones (métro, RER, bus, tram, train, Transilien) toute l'année, week-ends et vacances compris : c'est la clé pour aller à Fontainebleau, Provins ou Versailles sans surcoût. 50 % remboursables par l'employeur en stage/alternance."},
+{"nom": "Forfait Imagine R Scolaire","cat": "lieux","tarif": "401,30 €/an (frais de dossier inclus), 13 mois pour le prix de 12 la 1re année","gratuit": false,"public": "-26","quand": "Année scolaire, souscription 2026-2027 jusqu'au 30 avril 2027","url": "https://www.iledefrance-mobilites.fr/titres-et-tarifs/detail/forfait-imagine-r-scolaire","note": "Collégiens, lycéens et apprentis de moins de 26 ans au 1er septembre résidant en Île-de-France. Déplacements illimités zones 1 à 5, y compris week-ends et vacances. Hors Orlyval, bus Air France et bus touristiques."},
+{"nom": "Repas Crous à 1 € pour tous les étudiants","cat": "lieux","tarif": "1 € le repas complet (plat + jusqu'à 2 accompagnements)","gratuit": false,"public": "étudiant","quand": "Depuis le 4 mai 2026, une fois par service, midi et soir","url": "https://www.etudiant.gouv.fr/fr/comment-beneficier-du-repas-crous-1-eu-3123","note": "Changement majeur de 2026 : le tarif à 1 € n'est plus réservé aux boursiers, il s'applique à TOUS les étudiants, y compris apprentis avec carte étudiante des métiers, doctorants et volontaires en service civique. Il faut un compte Izly actif pour payer. Valable dans tous les restos U et certaines cafétérias, dont le réseau Crous de Paris."},
+{"nom": "Pass+ Hauts-de-Seine","cat": "lieux","tarif": "Crédit départemental à dépenser chez les partenaires","gratuit": false,"public": "-26","quand": "Année scolaire","url": "https://www.passplus.fr/","note": "Dispositif du Département des Hauts-de-Seine pour les collégiens domiciliés ou scolarisés dans le 92, et les jeunes de 11 à 16 ans accueillis en établissement spécialisé. Le crédit couvre les activités sportives et culturelles, l'équipement informatique, le forfait Imagine R, la restauration scolaire, plus des bons plans partenaires. Compte à créer par le représentant légal."},
+{"nom": "BilletRéduc - tarifs jeunes et dernière minute","cat": "spectacle","tarif": "Places de théâtre, humour et concerts souvent entre 8 € et 20 €, jusqu'à -61 %","gratuit": false,"public": "-26/étudiant","quand": "Toute l'année","url": "https://www.billetreduc.com/","note": "Inscription et compte gratuits. Rubrique dédiée « Tarifs jeunes : étudiants, moins de 26 ans » en plus des offres limitées à -50 % et plus. Couverture très dense sur les salles parisiennes : c'est le réflexe le moins cher pour le théâtre privé et le café-théâtre."},
+{"nom": "Gratuité des collections permanentes des musées de la Ville de Paris (Paris Musées)","cat": "musee","tarif": "Gratuit","gratuit": true,"public": "tous","quand": "Toute l'année, aux horaires d'ouverture","url": "https://www.parismusees.paris.fr/fr/foire-aux-questions","note": "Les collections permanentes des musées municipaux (Carnavalet, Petit Palais, Musée d'Art moderne, Maison de Balzac, Musée de la Vie romantique, Bourdelle, Zadkine...) sont en accès libre pour tout le monde, sans condition d'âge. Exceptions payantes : Palais Galliera, Catacombes, Crypte archéologique de l'île de la Cité et Hauteville House. Expositions temporaires payantes."},
+{"nom": "Gratuité des musées et monuments nationaux pour les 18-25 ans de l'UE","cat": "musee","tarif": "Gratuit","gratuit": true,"public": "-26","quand": "Toute l'année","url": "https://www.culture.gouv.fr/Thematiques/Musees","note": "Gratuité des collections permanentes pour les 18-25 ans ressortissants ou résidents réguliers de l'Union européenne : une cinquantaine de musées nationaux (Louvre, Orsay, Quai Branly, Guimet...) et une centaine de monuments nationaux (Arc de triomphe, Panthéon, Sainte-Chapelle, Conciergerie, château de Versailles). Il suffit de présenter une pièce d'identité ou un titre de séjour au guichet. Expositions temporaires non incluses. Les moins de 18 ans sont gratuits sans condition de nationalité."},
+{"nom": "Carte Avantage Jeune SNCF","cat": "lieux","tarif": "49 € par an","gratuit": false,"public": "-26","quand": "1 an, date de début au choix jusqu'à 5 mois après l'achat","url": "https://www.sncf-connect.com/catalogue/description/carte-avantage-jeune","note": "12-27 ans. -30 % sur TGV INOUI, INTERCITÉS et trains régionaux en 1re et 2de classe, prix plafonnés à 49 € (trajet < 1h30), 69 € (1h30-3h) et 89 € (> 3h). Utile depuis l'Île-de-France pour les week-ends hors région, les trajets internes IDF étant déjà couverts par Navigo/Imagine R. Échange et remboursement gratuits jusqu'à 7 jours avant le départ."},
+{"nom": "Carte Jeunes Européenne (European Youth Card / EYCA)","cat": "lieux","tarif": "10 € par an en France","gratuit": false,"public": "-26","quand": "Toute l'année, validité 1 an","url": "https://www.etudiant.gouv.fr/fr/se-cultiver-sans-se-ruiner-1348","note": "Environ 72 000 réductions dans 37 pays européens (culture, transports, sport, hébergement, boutiques), dont de nombreux partenaires en Île-de-France. Pas besoin d'être étudiant : la carte EYCA est ouverte jusqu'à 30 ans inclus selon les pays. Version physique ou numérique via l'appli myEYC."}];
+
+</script>
+<script>
+/* ---------- fonds de carte ---------- */
 const ign = (layer, fmt) => L.tileLayer(
   'https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=' + layer +
   '&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=' + encodeURIComponent(fmt),
-  {maxZoom:19, minZoom:9, attribution:'© <a href="https://www.ign.fr/">IGN</a> — Géoplateforme'});
-
+  {maxZoom:19, minZoom:8, attribution:'© <a href="https://www.ign.fr/">IGN</a> — Géoplateforme'});
 const plan   = ign('GEOGRAPHICALGRIDSYSTEMS.PLAN.IGN', 'image/png');
 const planV2 = ign('GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 'image/png');
 const photo  = ign('ORTHOIMAGERY.ORTHOPHOTOS', 'image/jpeg');
 const osm    = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {maxZoom:19, minZoom:9, attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+  {maxZoom:19, minZoom:8, attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
 
-const map = L.map('map', {layers:[plan], zoomControl:true, tap:true}).setView([48.8600, 2.3500], 12);
+const map = L.map('map', {layers:[plan], zoomControl:true, tap:true}).setView([48.8600, 2.3500], 11);
 L.control.layers({'Plan IGN':plan, 'Plan IGN (v2)':planV2, 'Vue aérienne IGN':photo, 'OpenStreetMap':osm},
   null, {position:'topright'}).addTo(map);
+L.control.scale({imperial:false}).addTo(map);
 
-// Repli en cascade : PLAN.IGN → PLANIGNV2 → OpenStreetMap.
-// Utile si le nom de couche change côté IGN, ou si la page est servie sous une CSP
-// qui n'autorise pas data.geopf.fr (aperçus intégrés, iframes sandboxées…).
-let ignOK = false, e1 = 0, e2 = 0;
+let ignOK = false, e1 = 0, e2 = 0, warnBox = null;
 [plan, planV2].forEach(l => l.on('tileload', () => { ignOK = true; }));
-plan.on('tileerror', () => {
-  if (++e1 === 4 && !ignOK && map.hasLayer(plan)) { map.removeLayer(plan); map.addLayer(planV2); }
-});
-planV2.on('tileerror', () => {
-  if (++e2 === 4 && !ignOK && map.hasLayer(planV2)) {
-    map.removeLayer(planV2); map.addLayer(osm); warn('🗺️ Fond IGN inaccessible ici — repli sur OpenStreetMap.');
-  }
-});
-setTimeout(() => {
-  if (!ignOK && !map.hasLayer(osm)) warn('🛰️ Fond de carte indisponible (pas de réseau ?). Les points restent utilisables.');
-}, 8000);
-
-let warnBox = null;
+plan.on('tileerror',   () => { if (++e1 === 4 && !ignOK && map.hasLayer(plan))   { map.removeLayer(plan);   map.addLayer(planV2); } });
+planV2.on('tileerror', () => { if (++e2 === 4 && !ignOK && map.hasLayer(planV2)) { map.removeLayer(planV2); map.addLayer(osm);
+  warn('🗺️ Fond IGN inaccessible ici — repli sur OpenStreetMap.'); } });
+setTimeout(() => { if (!ignOK && !map.hasLayer(osm)) warn('🛰️ Fond de carte indisponible (pas de réseau ?). Les points restent utilisables.'); }, 8000);
 function warn(msg){
   if (warnBox) { warnBox.getContainer().innerHTML = msg; return; }
   warnBox = L.control({position:'bottomleft'});
   warnBox.onAdd = () => { const el = L.DomUtil.create('div','tilewarn'); el.innerHTML = msg; return el; };
   warnBox.addTo(map);
 }
-L.control.scale({imperial:false}).addTo(map);
 
-/* ---------- marqueurs ---------- */
-const active = new Set(Object.keys(CATS));
-const prixActive = new Set(['gratuit', 'reduit']);   // les deux cochés au départ
+/* ---------- catégories & filtres ---------- */
+Object.assign(CATS, {
+  musique: {label:"Musique",  color:"#F06595", emoji:"🎵"},
+  lieux:   {label:"Lieux & savoir", color:"#7048E8", emoji:"📚"}
+});
+const SRC = {
+  pass:  {label:"Pass Jeunes",           color:"#FFD43B", emoji:"🎟️"},
+  jeune: {label:"Bon plan -26 / étudiant", color:"#4DABF7", emoji:"🎓"},
+  tous:  {label:"Gratuit pour tous",     color:"#94D82D", emoji:"🌍"}
+};
 const PRIX = {gratuit:{label:'Gratuit', color:'#0CA678', emoji:'✅'},
               reduit :{label:'Tarif réduit', color:'#F59F00', emoji:'💶'}};
+const catActive  = new Set(Object.keys(CATS));
+const srcActive  = new Set(Object.keys(SRC));
+const prixActive = new Set(Object.keys(PRIX));
 let query = '';
+
+/* ---------- fusion des deux jeux de données ---------- */
+const POINTS = [];
+OFFRES.forEach(o => POINTS.push({...o, src:'pass'}));
+BONS_PLANS.forEach(b => POINTS.push({
+  ...b, src: b.public === 'tous' ? 'tous' : 'jeune',
+  offre: b.tarif, periode: b.quand
+}));
+
+// deux points au même endroit (un lieu présent dans les deux jeux) : on décale légèrement le second
+const occupied = new Map();
+POINTS.forEach(p => {
+  let key = p.lat.toFixed(4) + ',' + p.lon.toFixed(4), n = occupied.get(key) || 0;
+  if (n) { p.lat += 0.00022 * n; p.lon += 0.00030 * n; }
+  occupied.set(key, n + 1);
+});
+
 const layer = L.layerGroup().addTo(map);
-const items = OFFRES.map(o => {
-  const c = CATS[o.cat];
-  const m = L.circleMarker([o.lat, o.lon], {
-    radius: o.exclu ? 5 : 7,
-    color: '#0f1115', weight: 1.5,
-    fillColor: o.exclu ? '#6b7280' : c.color,
-    fillOpacity: o.exclu ? .55 : .92
-  });
-  m.bindPopup(popupHTML(o), {maxWidth:280});
+const items = POINTS.map(o => {
+  const c = CATS[o.cat] || CATS.lieux;
+  const pass = o.src === 'pass';
+  const m = L.circleMarker([o.lat, o.lon], pass
+    ? {radius: o.exclu ? 5 : 7, color:'#0f1115', weight:1.5, fillColor: o.exclu ? '#6b7280' : c.color, fillOpacity: o.exclu ? .55 : .92}
+    : {radius: 6, color: c.color, weight: 2.5, fillColor: c.color, fillOpacity: .18});
+  m.bindPopup(popupHTML(o), {maxWidth:290});
   m.bindTooltip(o.nom, {direction:'top', offset:[0,-6]});
-  return {o, m, hay:(o.nom+' '+o.adr+' '+o.offre+' '+(o.grp||'')).toLowerCase()};
+  return {o, m, hay:(o.nom+' '+o.adr+' '+o.offre+' '+(o.grp||'')+' '+(o.note||'')+' '+(o.public||'')).toLowerCase()};
 });
 
 function popupHTML(o){
-  const c = CATS[o.cat];
+  const c = CATS[o.cat] || CATS.lieux;
   const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(o.nom + ', ' + o.adr);
+  const pass = o.src === 'pass';
   return `<div class="pop-cat" style="color:${c.color}">${c.emoji} ${c.label}${o.grp ? ' · '+o.grp : ''}</div>
-    <div class="pop-nom">${o.nom}<span class="badge">coupon ${o.n}</span>${o.neuf ? '<span class="badge neuf">nouveauté</span>' : ''}</div>
+    <div class="pop-nom">${o.nom}${pass ? `<span class="badge">Pass Jeunes · coupon ${o.n}</span>` : ''}${o.neuf ? '<span class="badge neuf">nouveauté</span>' : ''}</div>
     <div class="pop-adr">${o.adr}${o.approx ? ' <i>(position approx.)</i>' : ''}</div>
     <div class="pop-offre">${o.offre}</div>
-    <div><span class="badge prix${o.gratuit ? '' : ' reduit'}">${o.gratuit ? '✅ gratuit avec le Pass' : '💶 tarif réduit'}</span></div>
-    <div class="pop-per">🗓️ ${o.periode}</div>
+    <div><span class="badge prix${o.gratuit ? '' : ' reduit'}">${o.gratuit ? '✅ gratuit' : '💶 tarif réduit'}</span>${
+      o.public ? `<span class="badge pub">${o.public === 'tous' ? 'ouvert à tous' : o.public}</span>` : ''}</div>
+    ${o.periode ? `<div class="pop-per" style="margin-top:6px">🗓️ ${o.periode}</div>` : ''}
+    ${o.note ? `<div class="pop-per" style="margin-top:4px">ℹ️ ${o.note}</div>` : ''}
     <div class="pop-links"><a href="${maps}" target="_blank" rel="noopener">Itinéraire ↗</a>
-    <a href="https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres" target="_blank" rel="noopener">Le Pass ↗</a></div>`;
+    <a href="${o.url || 'https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres'}" target="_blank" rel="noopener">Source officielle ↗</a></div>`;
 }
 
 function render(){
   layer.clearLayers();
   let n = 0;
   items.forEach(it => {
-    const ok = active.has(it.o.cat)
+    const ok = catActive.has(it.o.cat)
+            && srcActive.has(it.o.src)
             && prixActive.has(it.o.gratuit ? 'gratuit' : 'reduit')
             && (!query || it.hay.includes(query));
     if (ok){ layer.addLayer(it.m); n++; }
@@ -1014,7 +1180,6 @@ function render(){
   document.getElementById('count').textContent = n + ' lieu' + (n>1?'x':'') + ' affiché' + (n>1?'s':'');
 }
 
-/* ---------- filtres ---------- */
 function makeChips(containerId, defs, set){
   const box = document.getElementById(containerId);
   Object.entries(defs).forEach(([k, c]) => {
@@ -1030,21 +1195,28 @@ function makeChips(containerId, defs, set){
     box.appendChild(el);
   });
 }
-makeChips('chips', CATS, active);
+makeChips('chipsSrc', SRC, srcActive);
+makeChips('chips', CATS, catActive);
 makeChips('chipsPrix', PRIX, prixActive);
 
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); render(); });
-document.getElementById('fit').onclick = () => map.fitBounds(L.latLngBounds(OFFRES.map(o=>[o.lat,o.lon])), {padding:[30,30]});
+document.getElementById('fit').onclick = () => map.fitBounds(L.latLngBounds(POINTS.map(o=>[o.lat,o.lon])), {padding:[30,30]});
 document.getElementById('geo').onclick = () => map.locate({setView:true, maxZoom:15});
 map.on('locationfound', e => L.circleMarker(e.latlng, {radius:8, color:'#fff', weight:2, fillColor:'#4C6EF5', fillOpacity:1})
   .addTo(map).bindTooltip('Vous êtes ici').openTooltip());
 map.on('locationerror', () => alert("Impossible de vous localiser (autorisation refusée ou GPS indisponible)."));
 
-/* ---------- offres sans lieu fixe ---------- */
+/* ---------- offres et dispositifs sans lieu fixe ---------- */
 document.getElementById('extra').innerHTML =
-  SANS_ADRESSE.map(o => `<b>Coupon ${o.n} — ${o.nom}</b> : ${o.offre} <i>(${o.periode})</i>`).join('<br>') +
-  `<br><br>Les positions marquées « approx. » sont recalées automatiquement via l'API Adresse (data.gouv.fr) ;
-   vérifiez toujours l'adresse indiquée dans la fiche. Offres et périodes reprises du chéquier officiel 2026.`;
+  '<b>Pass Jeunes — offres multi-sites</b><ul>' +
+  SANS_ADRESSE.map(o => `<li><b>Coupon ${o.n} — ${o.nom}</b> : ${o.offre} <i>(${o.periode})</i></li>`).join('') +
+  '</ul><b>Cartes et dispositifs à l\'année</b><ul>' +
+  DISPOSITIFS.map(d => `<li><b>${d.nom}</b> — ${d.tarif}. ${d.note || ''} ${d.url ? `<a href="${d.url}" target="_blank" rel="noopener">source ↗</a>` : ''}</li>`).join('') +
+  `</ul><p>Deux jeux de données : les <b>42 offres du Pass Jeunes 2026</b> (source :
+   <a href="https://passjeunes.paris.fr/passjeunes/jsp/site/Portal.jsp?page=reservationpassjeunes&view=offres" target="_blank" rel="noopener">page officielle</a>)
+   et une collecte de <b>bons plans -26 ans / étudiants</b> valables à l'année, chacun vérifié sur le site officiel du lieu (lien « Source officielle » dans chaque fiche).
+   Tarifs, horaires et conditions changent : vérifiez avant de vous déplacer. Les positions marquées « approx. »
+   sont recalées via l'API Adresse de data.gouv.fr. Carte non officielle.</p>`;
 
 /* ---------- recalage fin des adresses approximatives (BAN) ---------- */
 items.filter(it => it.o.approx).forEach(it => {
@@ -1054,11 +1226,9 @@ items.filter(it => it.o.approx).forEach(it => {
       const f = j && j.features && j.features[0];
       if (!f || f.properties.score < 0.5) return;
       const [lon, lat] = f.geometry.coordinates;
-      if (Math.abs(lat - it.o.lat) > 0.05 || Math.abs(lon - it.o.lon) > 0.08) return; // garde-fou
-      it.o.lat = lat; it.o.lon = lon;
-      it.m.setLatLng([lat, lon]);
-    })
-    .catch(() => {});
+      if (Math.abs(lat - it.o.lat) > 0.05 || Math.abs(lon - it.o.lon) > 0.08) return;
+      it.o.lat = lat; it.o.lon = lon; it.m.setLatLng([lat, lon]);
+    }).catch(() => {});
 });
 
 render();
